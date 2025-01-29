@@ -1,9 +1,8 @@
-import kagglehub
+from lib.lib import Import_data
 def main():
     print("Hello from eit!")
-    path = kagglehub.dataset_download("arashnic/earthquake-magnitude-damage-and-impact")
-    print("Path to dataset files:", path)
-
+    path = Import_data()
+    
 
 
 if __name__ == "__main__":
