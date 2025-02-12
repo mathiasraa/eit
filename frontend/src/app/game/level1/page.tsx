@@ -7,7 +7,7 @@ import { CurrentBalance } from "@/components/game/CurrentBalance";
 
 export default function Home() {
   return (
-    <GameProvider>
+
       <main className="container mx-auto px-4 py-8">
         <h1 className="text-3xl font-bold mb-8">
           Nepal Earthquake Simulation: Build Your House
@@ -16,6 +16,6 @@ export default function Home() {
 
         <BuildingChoices />
       </main>
-    </GameProvider>
+
   );
 }
