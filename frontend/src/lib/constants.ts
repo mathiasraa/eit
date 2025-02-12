@@ -1,4 +1,9 @@
-import type { FoundationType, SuperstructureType } from "@/lib/types";
+import {
+  GameEventKey,
+  type FoundationType,
+  type GameEvent,
+  type SuperstructureType,
+} from "@/lib/types";
 
 export const INITIAL_BUDGET = 500000; // 500,000 NPR
 
@@ -27,4 +32,88 @@ export const SUPERSTRUCTURE_COSTS: Record<
   rc_non_engineered: 500000,
   re_engineered: 550000,
   other: 0,
+};
+
+export const GAME_EVENTS: Record<GameEventKey, Omit<GameEvent, "key">> = {
+  [GameEventKey.foundation]: {
+    title: "Foundation",
+    step: 1,
+    description: "Choose the foundation type for your house.",
+    choices: [
+      {
+        choice: "mud_mortar_stone_brick",
+        price: 100000,
+      },
+      {
+        choice: "bamboo_timber",
+        price: 50000,
+      },
+      {
+        choice: "cement_stone_brick",
+        price: 150000,
+      },
+      {
+        choice: "reinforced_concrete",
+        price: 200000,
+      },
+      {
+        choice: "other",
+        price: 0,
+      },
+    ],
+  },
+  [GameEventKey.structure]: {
+    title: "Structure",
+    step: 2,
+    description: "Choose the superstructure type for your house.",
+    choices: [
+      {
+        choice: "adobe_mud",
+        price: 100000,
+      },
+      {
+        choice: "cement_mortar_stone",
+        price: 250000,
+      },
+      {
+        choice: "timber",
+        price: 400000,
+      },
+      {
+        choice: "bamboo",
+        price: 450000,
+      },
+      {
+        choice: "rc",
+        price: 500000,
+      },
+      {
+        choice: "other",
+        price: 0,
+      },
+    ],
+  },
+  [GameEventKey.finishing]: {
+    title: "Finishing",
+    step: 3,
+    description: "Choose the finishing type for your house.",
+    choices: [
+      {
+        choice: "plaster",
+        price: 100000,
+      },
+      {
+        choice: "paint",
+        price: 150000,
+      },
+      {
+        choice: "tiles",
+        price: 200000,
+      },
+      {
+        choice: "other",
+        price: 0,
+      },
+    ],
+  },
 };

@@ -1,3 +1,22 @@
+export enum GameEventKey {
+  foundation = "foundation",
+  structure = "structure",
+  finishing = "finishing",
+}
+
+export type EventChoice = {
+  choice: string;
+  price: number;
+};
+
+export type GameEvent = {
+  key: GameEventKey;
+  step: number;
+  title: string;
+  description: string;
+  choices: EventChoice[];
+};
+
 export type FoundationType =
   | "mud_mortar_stone_brick"
   | "bamboo_timber"

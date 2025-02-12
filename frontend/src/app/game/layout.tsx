@@ -8,7 +8,7 @@ export default function Layout({
   children: React.ReactNode;
 }>) {
   return (
-    <main className="p-10">
+    <main>
       <GameProvider>{children}</GameProvider>
     </main>
   );
