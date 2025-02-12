@@ -67,7 +67,7 @@ export default function Introduction() {
             Are you ready to build your house in Nepal? Click the button below to
             start building your house. Good luck!
           </p>
-          <Link href="/game/level1">
+          <Link href="/game/phase-1">
             <button className="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded mt-4">
               Start Building!
             </button>
