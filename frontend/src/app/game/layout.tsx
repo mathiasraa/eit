@@ -1,6 +1,6 @@
 "use client";
-import { GameProvider } from "@/contexts/GameContext";
 
+import { GameProvider } from "@/contexts/GameContext";
 
 export default function Layout({
   children,
@@ -8,12 +8,8 @@ export default function Layout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en">
-      <body> 
-        <GameProvider>
-        {children}
-        </GameProvider>
-      </body>
-    </html>
+    <main className="p-10">
+      <GameProvider>{children}</GameProvider>
+    </main>
   );
 }
