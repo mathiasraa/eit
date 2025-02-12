@@ -13,7 +13,7 @@ export default function Home() {
           Try our interactive AI-based game that simulates your chances of
           survival.
         </p>
-        <Link href="/level1">
+        <Link href="/game">
           <Button className="">Play Now</Button>
         </Link>
         <div className="w-full absolute left-0 -bottom-10 flex justify-center">
