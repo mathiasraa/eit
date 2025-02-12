@@ -1,8 +1,9 @@
 // src/app/page.tsx
 "use client";
 
-import { GameProvider } from "@/contexts/GameContext";
+import { GameProvider, useGame } from "@/contexts/GameContext";
 import { BuildingChoices } from "@/components/game/BuildingChoices";
+import { CurrentBalance } from "@/components/game/CurrentBalance";
 
 export default function Home() {
   return (
@@ -11,6 +12,7 @@ export default function Home() {
         <h1 className="text-3xl font-bold mb-8">
           Nepal Earthquake Simulation: Build Your House
         </h1>
+         <CurrentBalance />
 
         <BuildingChoices />
       </main>
