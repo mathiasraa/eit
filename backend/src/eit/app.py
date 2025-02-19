@@ -1,8 +1,13 @@
 from flask import Flask
 from flask_cors import CORS 
 from flask import request
+import joblib
+import os
 
 app = Flask(__name__)
+print("HEI")
+print("Current directory: ", os.getcwd())
+model = joblib.load("src/eit/model.pkl")
 
 CORS(app, resources={
     r"/*": {
