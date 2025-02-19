@@ -1,1 +1,9 @@
-def getBuildingState():
+from flask import Flask 
+app = Flask(__name__)
+
+@app.route("/startGame")
+def start_game():
+    return '', 204
+
+if __name__ == '__main__':
+    app.run(debug=True)
