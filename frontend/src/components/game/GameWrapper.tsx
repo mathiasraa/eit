@@ -20,11 +20,11 @@ const GameWrapper: React.FC<PropsWithChildren> = ({ children }) => {
     )?.[0];
 
     if (!nextEventKey) {
-      router.push("/game/phase-3");
+      router.push("/game/phase-2");
       return;
     }
 
-    router.push(`/game/phase-2/${nextEventKey}`);
+    router.push(`/game/phase-1/${nextEventKey}`);
   };
 
   return (
