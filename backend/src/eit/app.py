@@ -9,7 +9,7 @@ app = Flask(__name__)
 print("HEI")
 print("Current directory: ", os.getcwd())
 # sklearn MLPCLASSIFIER
-model = joblib.load("/Users/mathiasraa/Desktop/ntnu/eit/backend/src/eit/model.pkl")
+model = joblib.load("./src/eit/model.pkl")
 
 features = [
     "count_floors_pre_eq",
