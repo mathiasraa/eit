@@ -1,12 +1,22 @@
 from flask import Flask
 from flask_cors import CORS 
-from .lib.sim_types import SimulationFeatures
 from flask import request
-
 
 app = Flask(__name__)
 
-CORS(app)
+CORS(app, resources={
+    r"/*": {
+        "origins": ["http://localhost:3000"],
+        "methods": ["GET", "POST"],
+        "allow_headers": ["Content-Type"]
+    }
+})
+
+
+# Health check endpoint
+@app.route("/health")
+def health():
+    return "OK", 200
 
 @app.route("/startGame")
 def start_game():
@@ -69,5 +79,5 @@ def simulate_earthquake():
     }, 200
 
 if __name__ == '__main__':
-    app.run(debug=True)
+    app.run(host="localhost", port=8000, debug=True)
 

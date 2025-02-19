@@ -12,8 +12,8 @@ export default function Introduction() {
   };
 
   return (
-    <Layout className="w-full justify-center">
-      <div className="max-w-4xl">
+    <Layout className="w-full h-screen justify-center items-center">
+      <div className="max-w-4xl h-full flex flex-col justify-center items-center">
         {slide === 0 && (
           <div className="transition-all duration-500">
             <h1 className="text-4xl mb-4">
