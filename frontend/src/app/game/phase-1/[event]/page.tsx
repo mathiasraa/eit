@@ -2,11 +2,25 @@
 
 import GameWrapper from "@/components/game/GameWrapper";
 import { Button } from "@/components/ui/button";
+import { useGame } from "@/contexts/GameContext";
 import { useCurrentEvent } from "@/hooks/useCurrentEvent";
 
 export default function GameEventPage() {
-  // const game = useGame();
+  const { canAfford, setPendingChoice, pendingChoice } = useGame();
   const event = useCurrentEvent();
+
+  const handleChoice = (choice: string, price: number) => {
+    if (!canAfford(price)) {
+      alert("You cannot afford this choice!");
+      return;
+    }
+
+    setPendingChoice({
+      type: event.key,
+      choice,
+      price,
+    });
+  };
 
   return (
     <GameWrapper>
@@ -19,8 +33,15 @@ export default function GameEventPage() {
             {event.choices.map((entry) => (
               <Button
                 key={entry.choice}
-                variant="outline"
-                // variant={state.foundation_type === type ? "default" : "outline"}
+                variant={
+                  pendingChoice?.choice === entry.choice
+                    ? "default"
+                    : canAfford(entry.price)
+                    ? "outline"
+                    : "ghost"
+                }
+                disabled={!canAfford(entry.price)}
+                onClick={() => handleChoice(entry.choice, entry.price)}
               >
                 {entry.choice}
                 <span className="block text-sm">NPR {entry.price}</span>

@@ -2,6 +2,7 @@ import { INITIAL_BUDGET } from "@/lib/constants";
 import {
   GameState,
   type FoundationType,
+  type PendingChoice,
   type SuperstructureType,
 } from "@/lib/types";
 import { createContext, useContext, useReducer } from "react";
@@ -15,6 +16,10 @@ interface GameContextType {
   updatePlinthArea: (area: number) => void;
   canAfford: (cost: number) => boolean;
   spendMoney: (amount: number) => void;
+  updateGameStage: (stage: GameState["gameStage"]) => void;
+  pendingChoice: PendingChoice | null;
+  setPendingChoice: (choice: PendingChoice | null) => void;
+  applyPendingChoice: () => void;
 }
 
 const GameContext = createContext<GameContextType | undefined>(undefined);
@@ -27,6 +32,7 @@ const initialState: GameState = {
   plinth_area: 3,
   available_cash: INITIAL_BUDGET,
   gameStage: "foundation",
+  pendingChoice: null,
 };
 
 type GameAction =
@@ -35,7 +41,9 @@ type GameAction =
   | { type: "UPDATE_SUPERSTRUCTURE"; payload: SuperstructureType }
   | { type: "UPDATE_AGE"; payload: number }
   | { type: "UPDATE_PLINTH_AREA"; payload: number }
-  | { type: "SPEND_MONEY"; payload: number };
+  | { type: "SPEND_MONEY"; payload: number }
+  | { type: "UPDATE_GAME_STAGE"; payload: GameState["gameStage"] }
+  | { type: "SET_PENDING_CHOICE"; payload: PendingChoice | null };
 
 function gameReducer(state: GameState, action: GameAction): GameState {
   switch (action.type) {
@@ -54,6 +62,10 @@ function gameReducer(state: GameState, action: GameAction): GameState {
         ...state,
         available_cash: state.available_cash - action.payload,
       };
+    case "UPDATE_GAME_STAGE":
+      return { ...state, gameStage: action.payload };
+    case "SET_PENDING_CHOICE":
+      return { ...state, pendingChoice: action.payload };
     default:
       return state;
   }
@@ -70,6 +82,35 @@ export const useGame = () => {
 export function GameProvider({ children }: { children: React.ReactNode }) {
   const [state, dispatch] = useReducer(gameReducer, initialState);
 
+  const applyPendingChoice = () => {
+    if (!state.pendingChoice) return;
+
+    const { type, choice, price } = state.pendingChoice;
+
+    switch (type) {
+      case "foundation":
+        dispatch({
+          type: "UPDATE_FOUNDATION",
+          payload: choice as FoundationType,
+        });
+        dispatch({ type: "UPDATE_GAME_STAGE", payload: "structure" });
+        break;
+      case "structure":
+        dispatch({
+          type: "UPDATE_SUPERSTRUCTURE",
+          payload: [choice] as SuperstructureType,
+        });
+        dispatch({ type: "UPDATE_GAME_STAGE", payload: "finishing" });
+        break;
+      case "finishing":
+        dispatch({ type: "UPDATE_GAME_STAGE", payload: "simulation" });
+        break;
+    }
+
+    dispatch({ type: "SPEND_MONEY", payload: price });
+    dispatch({ type: "SET_PENDING_CHOICE", payload: null });
+  };
+
   const value = {
     state,
     updateFloors: (floors: number) =>
@@ -84,6 +125,12 @@ export function GameProvider({ children }: { children: React.ReactNode }) {
     canAfford: (cost: number) => state.available_cash >= cost,
     spendMoney: (amount: number) =>
       dispatch({ type: "SPEND_MONEY", payload: amount }),
+    updateGameStage: (stage: GameState["gameStage"]) =>
+      dispatch({ type: "UPDATE_GAME_STAGE", payload: stage }),
+    pendingChoice: state.pendingChoice,
+    setPendingChoice: (choice: PendingChoice | null) =>
+      dispatch({ type: "SET_PENDING_CHOICE", payload: choice }),
+    applyPendingChoice,
   };
 
   return <GameContext.Provider value={value}>{children}</GameContext.Provider>;

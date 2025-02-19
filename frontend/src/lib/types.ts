@@ -45,4 +45,11 @@ export interface GameState {
   plinth_area: number;
   available_cash: number;
   gameStage: "foundation" | "structure" | "finishing" | "simulation";
+  pendingChoice: PendingChoice | null;
 }
+
+export type PendingChoice = {
+  type: GameEventKey;
+  choice: string;
+  price: number;
+};

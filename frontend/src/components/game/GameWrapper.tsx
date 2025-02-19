@@ -5,14 +5,23 @@ import { Button } from "@/components/ui/button";
 import { useCurrentEvent } from "@/hooks/useCurrentEvent";
 import { GAME_EVENTS } from "@/lib/constants";
 import { useRouter } from "next/navigation";
+import { useGame } from "@/contexts/GameContext";
 
 import type { PropsWithChildren } from "react";
 
 const GameWrapper: React.FC<PropsWithChildren> = ({ children }) => {
   const event = useCurrentEvent();
   const router = useRouter();
+  const { pendingChoice, applyPendingChoice } = useGame();
 
   const navigateNextStep = () => {
+    if (!pendingChoice) {
+      alert("Please make a selection before proceeding");
+      return;
+    }
+
+    applyPendingChoice();
+
     const currentStep = event.step;
     const nextStep = currentStep + 1;
     const nextEventKey = Object.entries(GAME_EVENTS).find(
@@ -33,7 +42,12 @@ const GameWrapper: React.FC<PropsWithChildren> = ({ children }) => {
       <div className="p-10">{children}</div>
 
       <div className="w-full fixed bottom-0 px-10 py-5 bg-white/20 flex justify-end">
-        <Button size="lg" onClick={navigateNextStep} variant="secondary">
+        <Button
+          size="lg"
+          onClick={navigateNextStep}
+          variant="secondary"
+          disabled={!pendingChoice}
+        >
           Next
         </Button>
       </div>

@@ -1,6 +1,6 @@
 import { Button } from "@/components/ui/button";
+import { Link } from "next-view-transitions";
 import Image from "next/image";
-import { Link } from 'next-view-transitions';
 
 export default function Home() {
   return (
