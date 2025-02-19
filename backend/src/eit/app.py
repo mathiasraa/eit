@@ -1,5 +1,5 @@
 from flask import Flask 
-from types import SimulationFeatures
+from .lib.sim_types import SimulationFeatures
 
 
 app = Flask(__name__)
