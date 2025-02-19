@@ -5,16 +5,21 @@ import type { SimulationFeatures } from "@/types/simulation";
 import { useMutation } from "@tanstack/react-query";
 
 async function simulateEarthquake(input: SimulationFeatures) {
-  const response = await fetch("http://localhost:5000/simulate", {
+  const body = {
+    simulation_features: input,
+  };
+
+  console.log(body);
+
+  const headers = new Headers();
+  headers.set("Content-Type", "application/json");
+
+  const response = await fetch("http://127.0.0.1:5000/simulate", {
     method: "POST",
-    body: JSON.stringify(input),
-    headers: {
-      "Content-Type": "application/json",
-    },
+    body: JSON.stringify(body),
+    headers,
   });
   const data = await response.json();
-
-  console.log(data);
 
   return data;
 }
@@ -25,27 +30,27 @@ export default function Phase2() {
     Error,
     SimulationFeatures
   >({
-    mutationFn: simulateEarthquake,
+    mutationFn: (input: SimulationFeatures) => simulateEarthquake(input),
   });
+
+  const handleSimulation = () => {
+    console.log("Simulating earthquake");
+    mutation.mutate({
+      num_floors: 1,
+      foundation_type: "cement_stone_brick",
+      superstructure_type: ["adobe_mud"],
+      age: 10,
+      plinth_area: 100,
+    });
+  };
 
   return (
     <div>
       <h1>We will now simulate your survival chances</h1>
-      <Button
-        onClick={() =>
-          mutation.mutate({
-            num_floors: 1,
-            foundation_type: "cement_stone_brick",
-            superstructure_type: ["adobe_mud"],
-            age: 10,
-            plinth_area: 100,
-          })
-        }
-      >
-        Simulate
-      </Button>
+      <Button onClick={handleSimulation}>Simulate</Button>
 
-      {/* Do something with the data */}
+      {mutation.isPending && <p>Simulating...</p>}
+      {mutation.isError && <p>Error: {mutation.error.message}</p>}
       {mutation.data && (
         <div>
           <h2>Simulation Results</h2>

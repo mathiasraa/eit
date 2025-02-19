@@ -1,15 +1,22 @@
-from flask import Flask 
+from flask import Flask
+from flask_cors import CORS 
 from .lib.sim_types import SimulationFeatures
+from flask import request
 
 
 app = Flask(__name__)
+
+CORS(app)
 
 @app.route("/startGame")
 def start_game():
     return '', 204
 
 @app.route("/simulate", methods=["POST"])
-def simulate_earthquake(simulation_features: SimulationFeatures):
+def simulate_earthquake():
+    simulation_features = request.get_json()["simulation_features"]
+    print(simulation_features)
+
     # Calculate damage grade based on weighted features
     # Weights represent relative importance of each feature
     weights = {
@@ -18,7 +25,7 @@ def simulate_earthquake(simulation_features: SimulationFeatures):
         'plinth_area': 0.15,# Larger area can affect stability
         'foundation_type': {
             'mud_mortar_stone_brick': 0.8,
-            'bamboo_timber': 0.9, 
+            'bamboo_timber': 0.9,
             'cement_stone_brick': 0.5,
             'reinforced_concrete': 0.2,
             'other': 0.7
