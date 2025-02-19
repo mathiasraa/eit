@@ -78,6 +78,12 @@ export default function Phase2() {
           </span>
         </h1>
 
+        {/* Print out input data */}
+        <div className="mt-8 p-4 bg-white/10 backdrop-blur-sm rounded-xl shadow-xl w-full max-w-lg">
+          <h2 className="text-2xl font-semibold text-white mb-4">Input Data</h2>
+          <pre className="text-slate-300">{JSON.stringify(state, null, 2)}</pre>
+        </div>
+
         <Button
           onClick={handleSimulation}
           disabled={mutation.isPending}

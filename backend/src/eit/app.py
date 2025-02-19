@@ -1,7 +1,8 @@
 from flask import Flask
 from flask_cors import CORS 
 from flask import request
-from .lib.sim_types import SimulationFeatures
+import numpy as np
+from .lib.sim_types import FoundationType, SimulationFeatures, SuperstructureType
 import joblib
 import os
 
@@ -69,26 +70,30 @@ def simulate_earthquake():
 
     typed_simulation_features = SimulationFeatures(**simulation_features)
 
-    input_vector = [[
-        typed_simulation_features["num_floors"], # count_floors_pre_eq
-        typed_simulation_features["age"], # age_building
-        typed_simulation_features["plinth_area"], # plinth_area_sq_ft
-        0, # has_superstructure_adobe_mud
-        0, # has_superstructure_mud_mortar_stone
-        0, # has_superstructure_stone_flag
-        0, # has_superstructure_cement_mortar_stone
-        0, # has_superstructure_mud_mortar_brick
-        0, # has_superstructure_cement_mortar_brick
-        0, # has_superstructure_timber
-        1, # has_superstructure_bamboo
-        1, # has_superstructure_rc_non_engineered
-        0, # has_superstructure_rc_engineered
-        0, # has_superstructure_other
-        1, # foundation_type_Bamboo/Timber
-        0, # foundation_type_Cement-Stone/Brick
-        0, # foundation_type_Mud mortar-Stone/Brick
-        0, # foundation_type_Other
-        0, # foundation_type_RC
+    superstructure_flags_from_simulation = np.array([
+        1 if SuperstructureType.ADOBE_MUD in typed_simulation_features["superstructure_type"] else 0,
+        1 if SuperstructureType.MUD_MORTAR_STONE in typed_simulation_features["superstructure_type"] else 0,
+        1 if SuperstructureType.STONE_FLAG in typed_simulation_features["superstructure_type"] else 0,
+        1 if SuperstructureType.CEMENT_MORTAR_STONE in typed_simulation_features["superstructure_type"] else 0,
+        1 if SuperstructureType.MUD_MORTAR_BRICK in typed_simulation_features["superstructure_type"] else 0,
+        1 if SuperstructureType.CEMENT_MORTAR_BRICK in typed_simulation_features["superstructure_type"] else 0,
+        1 if SuperstructureType.TIMBER in typed_simulation_features["superstructure_type"] else 0,
+        1 if SuperstructureType.BAMBOO in typed_simulation_features["superstructure_type"] else 0,
+        1 if SuperstructureType.RC_NON_ENGINEERED in typed_simulation_features["superstructure_type"] else 0,
+        1 if SuperstructureType.RE_ENGINEERED in typed_simulation_features["superstructure_type"] else 0,
+        1 if SuperstructureType.OTHER in typed_simulation_features["superstructure_type"] else 0,
+    ])
+
+    foundation_flags_from_simulation = np.array([
+        1 if FoundationType.BAMBOO_TIMBER in typed_simulation_features["foundation_type"] else 0,
+        1 if FoundationType.CEMENT_STONE_BRICK in typed_simulation_features["foundation_type"] else 0,
+        1 if FoundationType.MUD_MORTAR_STONE_BRICK in typed_simulation_features["foundation_type"] else 0,
+        1 if FoundationType.OTHER in typed_simulation_features["foundation_type"] else 0,
+        1 if FoundationType.REINFORCED_CONCRETE in typed_simulation_features["foundation_type"] else 0,
+    ])
+
+
+    plan_configuration_flags_from_simulation = [
         0, # plan_configuration_Building with Central Courtyard
         0, # plan_configuration_E-shape
         0, # plan_configuration_H-shape
@@ -99,6 +104,15 @@ def simulate_earthquake():
         1, # plan_configuration_Square
         0, # plan_configuration_T-shape
         0, # plan_configuration_U-shape
+    ]
+
+    input_vector = [[
+        typed_simulation_features["num_floors"], # count_floors_pre_eq
+        typed_simulation_features["age"], # age_building
+        typed_simulation_features["plinth_area"], # plinth_area_sq_ft
+        *superstructure_flags_from_simulation,
+        *foundation_flags_from_simulation,
+        *plan_configuration_flags_from_simulation,
     ]]
 
     damage_grade = model.predict(input_vector)
