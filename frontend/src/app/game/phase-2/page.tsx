@@ -112,10 +112,10 @@ export default function Phase2() {
               <span className="text-slate-300">Survival Chance:</span>
               <span
                 className={`text-4xl font-bold ${getSurvivalColor(
-                  mutation.data.damage_grade
+                  Math.round(mutation.data.damage_grade * 1000) / 10
                 )}`}
               >
-                {mutation.data.damage_grade}%
+                {Math.round(mutation.data.damage_grade * 1000) / 10}%
               </span>
             </div>
           </motion.div>

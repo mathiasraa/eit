@@ -1,13 +1,47 @@
 from flask import Flask
 from flask_cors import CORS 
 from flask import request
+from .lib.sim_types import SimulationFeatures
 import joblib
 import os
 
 app = Flask(__name__)
 print("HEI")
 print("Current directory: ", os.getcwd())
-model = joblib.load("src/eit/model.pkl")
+# sklearn MLPCLASSIFIER
+model = joblib.load("/Users/mathiasraa/Desktop/ntnu/eit/backend/src/eit/model.pkl")
+
+features = [
+    "count_floors_pre_eq",
+    "age_building",
+    "plinth_area_sq_ft",
+    "has_superstructure_adobe_mud",
+    "has_superstructure_mud_mortar_stone",
+    "has_superstructure_stone_flag",
+    "has_superstructure_cement_mortar_stone",
+    "has_superstructure_mud_mortar_brick",
+    "has_superstructure_cement_mortar_brick",
+    "has_superstructure_timber",
+    "has_superstructure_bamboo",
+    "has_superstructure_rc_non_engineered",
+    "has_superstructure_rc_engineered",
+    "has_superstructure_other",
+    "foundation_type_Bamboo/Timber",
+    "foundation_type_Cement-Stone/Brick",
+    "foundation_type_Mud mortar-Stone/Brick",
+    "foundation_type_Other",
+    "foundation_type_RC",
+    "plan_configuration_Building with Central Courtyard",
+    "plan_configuration_E-shape",
+    "plan_configuration_H-shape",
+    "plan_configuration_L-shape",
+    "plan_configuration_Multi-projected",
+    "plan_configuration_Others",
+    "plan_configuration_Rectangular",
+    "plan_configuration_Square",
+    "plan_configuration_T-shape",
+    "plan_configuration_U-shape"  
+]
 
 CORS(app, resources={
     r"/*": {
@@ -27,59 +61,56 @@ def health():
 def start_game():
     return '', 204
 
+
 @app.route("/simulate", methods=["POST"])
 def simulate_earthquake():
     simulation_features = request.get_json()["simulation_features"]
     print(simulation_features)
 
-    # Calculate damage grade based on weighted features
-    # Weights represent relative importance of each feature
-    weights = {
-        'num_floors': 0.3,  # Taller buildings generally more vulnerable
-        'age': 0.25,        # Older buildings more susceptible
-        'plinth_area': 0.15,# Larger area can affect stability
-        'foundation_type': {
-            'mud_mortar_stone_brick': 0.8,
-            'bamboo_timber': 0.9,
-            'cement_stone_brick': 0.5,
-            'reinforced_concrete': 0.2,
-            'other': 0.7
-        },
-        'superstructure_type': {
-            'adobe_mud': 0.9,
-            'stone_flag': 0.8,
-            'cement_mortar_stone': 0.7,
-            'mud_mortar_brick': 0.6,
-            'cement_mortar_brick': 0.5,
-            'timber': 0.4,
-            'bamboo': 0.3,
-            'other': 0.2
-        }
-    }
+    typed_simulation_features = SimulationFeatures(**simulation_features)
 
-    # Calculate base score (0-1)
-    score = 0
-    score += min(simulation_features['num_floors'] * weights['num_floors'], 1)
-    score += min((simulation_features['age'] / 50) * weights['age'], 1)
-    score += min((simulation_features['plinth_area'] / 2000) * weights['plinth_area'], 1)
-    score += weights['foundation_type'][simulation_features['foundation_type']]
-    
-    # Average the superstructure types if multiple
-    superstructure_score = sum(weights['superstructure_type'][st] for st in simulation_features['superstructure_type'])
-    score += superstructure_score / len(simulation_features['superstructure_type'])
+    input_vector = [[
+        typed_simulation_features["num_floors"], # count_floors_pre_eq
+        typed_simulation_features["age"], # age_building
+        typed_simulation_features["plinth_area"], # plinth_area_sq_ft
+        0, # has_superstructure_adobe_mud
+        0, # has_superstructure_mud_mortar_stone
+        0, # has_superstructure_stone_flag
+        0, # has_superstructure_cement_mortar_stone
+        0, # has_superstructure_mud_mortar_brick
+        0, # has_superstructure_cement_mortar_brick
+        0, # has_superstructure_timber
+        1, # has_superstructure_bamboo
+        1, # has_superstructure_rc_non_engineered
+        0, # has_superstructure_rc_engineered
+        0, # has_superstructure_other
+        1, # foundation_type_Bamboo/Timber
+        0, # foundation_type_Cement-Stone/Brick
+        0, # foundation_type_Mud mortar-Stone/Brick
+        0, # foundation_type_Other
+        0, # foundation_type_RC
+        0, # plan_configuration_Building with Central Courtyard
+        0, # plan_configuration_E-shape
+        0, # plan_configuration_H-shape
+        0, # plan_configuration_L-shape
+        0, # plan_configuration_Multi-projected
+        0, # plan_configuration_Others
+        0, # plan_configuration_Rectangular
+        1, # plan_configuration_Square
+        0, # plan_configuration_T-shape
+        0, # plan_configuration_U-shape
+    ]]
 
-    # Normalize and convert to damage grade (1-5)
-    score = score / 5  # Normalize to 0-1 range
-    damage_grade = min(max(round(score * 5), 1), 5)
+    damage_grade = model.predict(input_vector)
+    print(damage_grade)
+
+    # normalize the damage grade to be between 0 and 1 
+    normalized_damage_grade = damage_grade[0] / 5
 
     return {
-        "damage_grade": damage_grade,
+        "damage_grade": normalized_damage_grade,
         "feature_importance": {
-            "num_floors": weights['num_floors'],
-            "age": weights['age'],
-            "plinth_area": weights['plinth_area'],
-            "foundation": weights['foundation_type'][simulation_features['foundation_type']],
-            "superstructure": superstructure_score / len(simulation_features['superstructure_type'])
+           
         }
     }, 200
 
