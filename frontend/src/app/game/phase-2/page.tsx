@@ -1,6 +1,7 @@
 "use client";
 
 import { Button } from "@/components/ui/button";
+import { useGame } from "@/contexts/GameContext";
 import type { SimulationFeatures } from "@/types/simulation";
 import { useMutation } from "@tanstack/react-query";
 
@@ -8,8 +9,6 @@ async function simulateEarthquake(input: SimulationFeatures) {
   const body = {
     simulation_features: input,
   };
-
-  console.log(body);
 
   const headers = new Headers();
   headers.set("Content-Type", "application/json");
@@ -33,14 +32,15 @@ export default function Phase2() {
     mutationFn: (input: SimulationFeatures) => simulateEarthquake(input),
   });
 
+  const { state } = useGame();
+
   const handleSimulation = () => {
-    console.log("Simulating earthquake");
     mutation.mutate({
-      num_floors: 1,
-      foundation_type: "cement_stone_brick",
-      superstructure_type: ["adobe_mud"],
-      age: 10,
-      plinth_area: 100,
+      num_floors: state.num_floors,
+      foundation_type: state.foundation_type,
+      superstructure_type: state.superstructure_type,
+      age: state.age,
+      plinth_area: state.plinth_area,
     });
   };
 
