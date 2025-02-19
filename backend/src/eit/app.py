@@ -32,11 +32,13 @@ def simulate_earthquake():
         },
         'superstructure_type': {
             'adobe_mud': 0.9,
-            'mud_mortar_stone': 0.8,
-            'cement_mortar_brick': 0.4,
-            'rc_non_engineered': 0.6,
-            're_engineered': 0.3,
-            'other': 0.7
+            'stone_flag': 0.8,
+            'cement_mortar_stone': 0.7,
+            'mud_mortar_brick': 0.6,
+            'cement_mortar_brick': 0.5,
+            'timber': 0.4,
+            'bamboo': 0.3,
+            'other': 0.2
         }
     }
 
