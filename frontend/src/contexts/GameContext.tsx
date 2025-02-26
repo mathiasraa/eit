@@ -88,6 +88,10 @@ export function GameProvider({ children }: { children: React.ReactNode }) {
     const { type, choice, price } = state.pendingChoice;
 
     switch (type) {
+      case "buy_or_build":
+        dispatch({type: "UPDATE_AGE", payload: parseInt(choice)});
+        dispatch({ type: "UPDATE_GAME_STAGE", payload: "foundation" });
+        break;
       case "foundation":
         dispatch({
           type: "UPDATE_FOUNDATION",
