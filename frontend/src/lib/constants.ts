@@ -5,7 +5,7 @@ import {
   type SuperstructureType,
 } from "@/lib/types";
 
-export const INITIAL_BUDGET = 500000; // 500,000 NPR
+export const INITIAL_BUDGET = 10815028; // 10,815,028 NPR OR 863 108,68 NOK
 
 export const FOUNDATION_COSTS: Record<FoundationType, number> = {
   mud_mortar_stone_brick: 100000,
