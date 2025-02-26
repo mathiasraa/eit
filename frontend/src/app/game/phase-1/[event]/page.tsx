@@ -51,7 +51,9 @@ export default function GameEventPage() {
                   <span className="font-bold text-lg text-white">{entry.title || entry.choice}</span>
                 </div>
                 <div className="absolute bottom-0 right-0 p-2 bg-black/50 rounded-tl-md">
-                  <span className="block text-sm text-white">NPR {entry.price}</span>
+                  <span className={`block text-sm ${canAfford(entry.price) ? 'text-white' : 'text-red-500 font-bold'}`}>
+                    NPR {entry.price}
+                  </span>
                 </div>
               </Button>
             ))}
