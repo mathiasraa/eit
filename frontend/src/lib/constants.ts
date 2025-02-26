@@ -42,19 +42,26 @@ export const GAME_EVENTS: Record<GameEventKey, Omit<GameEvent, "key">> = {
     choices: [
       {
         choice: "mud_mortar_stone_brick",
+        title: "Mud Mortar Stone Brick",
         price: 100000,
+        image: "/images/foundation/mud_mortar_stone_brick.png",
       },
       {
         choice: "bamboo_timber",
+        title: "Bamboo Timber",
         price: 50000,
       },
       {
         choice: "cement_stone_brick",
+        title: "Cement Stone Brick",
         price: 150000,
+        image: "/images/foundation/cement_stone_brick.jpg",
       },
       {
         choice: "reinforced_concrete",
+        title: "Reinforced Concrete",
         price: 200000,
+        image: "/images/foundation/reinforced-concrete.jpg",
       },
       {
         choice: "other",

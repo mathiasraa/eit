@@ -7,6 +7,8 @@ export enum GameEventKey {
 export type EventChoice = {
   choice: string;
   price: number;
+  title?: string;
+  image?: string;
 };
 
 export type GameEvent = {
