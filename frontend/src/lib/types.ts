@@ -1,4 +1,5 @@
 export enum GameEventKey {
+  buy_or_build = "buy_or_build",
   foundation = "foundation",
   structure = "structure",
   finishing = "finishing",
@@ -18,6 +19,14 @@ export type GameEvent = {
   description: string;
   choices: EventChoice[];
 };
+
+export type HouseType =
+  | "new"
+  | "2_year_old"
+  | "5_year_old"
+  | "10_year_old"
+  | "15_year_old"
+  | "20_year_old"
 
 export type FoundationType =
   | "mud_mortar_stone_brick"

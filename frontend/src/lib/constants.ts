@@ -35,6 +35,43 @@ export const SUPERSTRUCTURE_COSTS: Record<
 };
 
 export const GAME_EVENTS: Record<GameEventKey, Omit<GameEvent, "key">> = {
+  [GameEventKey.buy_or_build]: {
+    title: "Buy or Build",
+    step: 0,
+    description: "Choose whether you want to buy a house or build a new one.",
+    choices: [
+      {
+        choice: "0",
+        title: "Build_new",
+        price: 50000000,
+      },
+      {
+        choice: "2",
+        title: "Buy 2 year old house",
+        price: 1000000,
+      },
+      {
+        choice: "5",
+        title: "Buy 5 year old house",
+        price: 2000000,
+      },
+      {
+        choice: "10",
+        title: "Buy 10 year old house",
+        price: 3000000,
+      },
+      {
+        choice: "15",
+        title: "Buy 15 year old house",
+        price: 4000000,
+      },
+      {
+        choice: "20",
+        title: "Buy 20 year old house",
+        price: 5000000,
+      },
+    ],
+  },
   [GameEventKey.foundation]: {
     title: "Foundation",
     step: 1,
@@ -76,22 +113,27 @@ export const GAME_EVENTS: Record<GameEventKey, Omit<GameEvent, "key">> = {
     choices: [
       {
         choice: "adobe_mud",
+        title: "Adobe Mud",
         price: 100000,
       },
       {
         choice: "cement_mortar_stone",
+        title: "Cement Mortar Stone",
         price: 250000,
       },
       {
         choice: "timber",
+        title: "Timber",
         price: 400000,
       },
       {
         choice: "bamboo",
+        title: "Bamboo",
         price: 450000,
       },
       {
         choice: "rc",
+        title: "Reinforced Concrete",
         price: 500000,
       },
       {
@@ -107,14 +149,17 @@ export const GAME_EVENTS: Record<GameEventKey, Omit<GameEvent, "key">> = {
     choices: [
       {
         choice: "plaster",
+        title: "Plaster",
         price: 100000,
       },
       {
         choice: "paint",
+        title: "Paint",
         price: 150000,
       },
       {
         choice: "tiles",
+        title: "Tiles",
         price: 200000,
       },
       {
