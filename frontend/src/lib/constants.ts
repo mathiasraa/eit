@@ -38,7 +38,7 @@ export const GAME_EVENTS: Record<GameEventKey, Omit<GameEvent, "key">> = {
   [GameEventKey.foundation]: {
     title: "Foundation",
     step: 1,
-    description: "Choose the foundation type for your house.",
+    description: "Choose the foundation type for your house. This will determine the strength of the base of your house.",
     choices: [
       {
         choice: "mud_mortar_stone_brick",
@@ -72,7 +72,7 @@ export const GAME_EVENTS: Record<GameEventKey, Omit<GameEvent, "key">> = {
   [GameEventKey.structure]: {
     title: "Structure",
     step: 2,
-    description: "Choose the superstructure type for your house.",
+    description: "Choose the superstructure type for your house. This will determine the material used for the walls and roof of your house.",
     choices: [
       {
         choice: "adobe_mud",
@@ -103,7 +103,7 @@ export const GAME_EVENTS: Record<GameEventKey, Omit<GameEvent, "key">> = {
   [GameEventKey.finishing]: {
     title: "Finishing",
     step: 3,
-    description: "Choose the finishing type for your house.",
+    description: "Choose the finishing type for your house. This will determine the material used for the walls and roof of your house.",
     choices: [
       {
         choice: "plaster",
