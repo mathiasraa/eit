@@ -75,7 +75,8 @@ export const GAME_EVENTS: Record<GameEventKey, Omit<GameEvent, "key">> = {
   [GameEventKey.foundation]: {
     title: "Foundation",
     step: 1,
-    description: "Choose the foundation type for your house. This will determine the strength of the base of your house.",
+    description:
+      "Choose the foundation type for your house. This will determine the strength of the base of your house.",
     choices: [
       {
         choice: "mud_mortar_stone_brick",
@@ -109,7 +110,8 @@ export const GAME_EVENTS: Record<GameEventKey, Omit<GameEvent, "key">> = {
   [GameEventKey.structure]: {
     title: "Structure",
     step: 2,
-    description: "Choose the superstructure type for your house. This will determine the material used for the walls and roof of your house.",
+    description:
+      "Choose the superstructure type for your house. This will determine the material used for the walls and roof of your house.",
     choices: [
       {
         choice: "adobe_mud",
@@ -145,7 +147,8 @@ export const GAME_EVENTS: Record<GameEventKey, Omit<GameEvent, "key">> = {
   [GameEventKey.finishing]: {
     title: "Finishing",
     step: 3,
-    description: "Choose the finishing type for your house. This will determine the material used for the walls and roof of your house.",
+    description:
+      "Choose the finishing type for your house. This will determine the material used for the walls and roof of your house.",
     choices: [
       {
         choice: "plaster",
@@ -170,7 +173,6 @@ export const GAME_EVENTS: Record<GameEventKey, Omit<GameEvent, "key">> = {
   },
 };
 
-
 export const buildingTypes = {
   "Traditional Bamboo": {
     description: "Simple bamboo structure with timber framing",
@@ -181,8 +183,7 @@ export const buildingTypes = {
     has_superstructure_timber: 1,
     has_superstructure_bamboo: 1,
     cost_multiplier: 0.6,
-    earthquake_vulnerability: "Very High",
-    source_cluster: "Building_Type_1",
+    src: "/building_types/bamboo.png",
   },
 
   "Basic Stone/Brick": {
@@ -193,8 +194,7 @@ export const buildingTypes = {
     other_floor_type: "TImber/Bamboo-Mud",
     has_superstructure_mud_mortar_stone: 1,
     cost_multiplier: 0.8,
-    earthquake_vulnerability: "High",
-    source_cluster: "Building_Type_2",
+    src: "/building_types/brick_mud.png",
   },
 
   "Improved Stone/Brick": {
@@ -205,8 +205,7 @@ export const buildingTypes = {
     other_floor_type: "TImber/Bamboo-Mud",
     has_superstructure_mud_mortar_stone: 1,
     cost_multiplier: 1.0,
-    earthquake_vulnerability: "Medium-High",
-    source_clusters: ["Building_Type_3", "Building_Type_5"],
+    src: "/building_types/improved_brick.png",
   },
 
   "Modern Concrete": {
@@ -217,20 +216,7 @@ export const buildingTypes = {
     other_floor_type: "RCC/RB/RBC",
     has_superstructure_cement_mortar_brick: 1,
     cost_multiplier: 1.5,
-    earthquake_vulnerability: "Medium",
-    source_cluster: "Building_Type_6",
-  },
-
-  "Engineered Earthquake-Resistant": {
-    description: "Specially designed structure to resist earthquake forces",
-    foundation_type: "RC",
-    roof_type: "RCC/RB/RBC",
-    ground_floor_type: "RC",
-    other_floor_type: "RCC/RB/RBC",
-    has_superstructure_rc_engineered: 1,
-    cost_multiplier: 2.0,
-    earthquake_vulnerability: "Very Low",
-    source_cluster: "Enhanced Building_Type_6",
+    src: "/building_types/modern_concrete.png",
   },
 };
 
@@ -242,6 +228,7 @@ export const buildingSizeTypes = {
     count_floors_pre_eq: 1,
     base_cost: 30000,
     source_cluster: "Size_Type_2",
+    src: "/building_size/small_1_story.png",
   },
 
   "Medium Two-Story": {
@@ -251,6 +238,7 @@ export const buildingSizeTypes = {
     count_floors_pre_eq: 2,
     base_cost: 50000,
     source_cluster: "Size_Type_1",
+    src: "/building_size/medium_2_story.png",
   },
 
   "Large Two-Story": {
@@ -260,6 +248,7 @@ export const buildingSizeTypes = {
     count_floors_pre_eq: 2,
     base_cost: 70000,
     source_cluster: "Size_Type_4",
+    src: "/building_size/large_2_story.png",
   },
 
   "Tall Three-Story": {
@@ -269,6 +258,7 @@ export const buildingSizeTypes = {
     count_floors_pre_eq: 3,
     base_cost: 90000,
     source_cluster: "Size_Type_3",
+    src: "/building_size/small_3_story.png",
   },
 
   "Large Three-Story": {
@@ -278,5 +268,6 @@ export const buildingSizeTypes = {
     count_floors_pre_eq: 3,
     base_cost: 110000,
     source_cluster: "Size_Type_6",
+    src: "/building_size/large_3_story.png",
   },
 };
