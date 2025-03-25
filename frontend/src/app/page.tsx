@@ -751,8 +751,8 @@ const GameStateView: React.FC<{
         <div>
           <h2 className="text-2xl font-bold mb-4">Select Building Structure</h2>
           <p className="mb-6 text-slate-300">
-            Your building's structural design is critical for earthquake
-            resilience. Nepal's earthquake revealed that different construction
+            Your building&apos;s structural design is critical for earthquake
+            resilience. Nepal&apos;s earthquake revealed that different construction
             methods yielded dramatically different survival rates.
           </p>
 
@@ -1138,7 +1138,7 @@ const GameStateView: React.FC<{
               <div className="flex-1">
                 <p>
                   The 2015 Nepal earthquake affected over 8 million people
-                  across 31 of Nepal's 75 districts. Buildings constructed
+                  across 31 of Nepal&apos;s 75 districts. Buildings constructed
                   according to seismic codes were 3-4 times more likely to
                   remain standing.
                 </p>
