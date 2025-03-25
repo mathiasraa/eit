@@ -1,7 +1,9 @@
 "use client";
 import { cn } from "@/lib/utils";
 import Image from "next/image";
-import { GameState, Location, availableLocations } from "../../app/page";
+import { GameState } from "@/types/GamePhase";
+import { availableLocations } from "@/lib/constants";
+import { Location } from "@/types/Location";
 
 export function locationSelectPhase(gameState: GameState, handleLocationSelect: (location: Location) => void) {
   return <div>

@@ -2,7 +2,7 @@
 import { buildingSizeTypes } from "@/lib/constants";
 import { cn } from "@/lib/utils";
 import Image from "next/image";
-import { GameState } from "../../app/page";
+import { GameState } from "@/types/GamePhase";
 
 export function buildingSizePhase(gameState: GameState, handleBuildingSizeSelect: (sizeType: (typeof buildingSizeTypes)[keyof typeof buildingSizeTypes]) => void) {
   return <div>

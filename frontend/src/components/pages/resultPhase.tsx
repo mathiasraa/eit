@@ -1,6 +1,6 @@
 "use client";
 import { buildingSizeTypes, buildingTypes } from "@/lib/constants";
-import { GameState } from "../../app/page";
+import { GameState } from "@/types/GamePhase";
 import { ProgressBar } from "@/components/ui/ProgressBar";
 
 export function resultPhase(gameState: GameState) {

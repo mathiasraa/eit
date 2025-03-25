@@ -2,7 +2,7 @@
 import { buildingTypes } from "@/lib/constants";
 import { cn } from "@/lib/utils";
 import Image from "next/image";
-import { GameState } from "../../app/page";
+import { GameState } from "@/types/GamePhase";
 import { ProgressBar } from "@/components/ui/ProgressBar";
 
 export function buildingStructurePhase(gameState: GameState, handleBuildingStructureSelect: (structureType: (typeof buildingTypes)[keyof typeof buildingTypes]) => void) {

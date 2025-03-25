@@ -1,5 +1,5 @@
 "use client";
-import { GameState } from "../../app/page";
+import { GameState } from "@/types/GamePhase";
 
 export function reflectionPhase(gameState: GameState) {
   return <div className="bg-slate-800 p-8 rounded-xl shadow-lg">

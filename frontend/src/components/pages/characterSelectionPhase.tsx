@@ -1,7 +1,9 @@
 "use client";
 import { cn } from "@/lib/utils";
 import Image from "next/image";
-import { GameState, Character, availableCharacters } from "../../app/page";
+import { GameState } from "@/types/GamePhase";
+import { availableCharacters } from "@/lib/constants";
+import { Character } from "@/types/Character";
 
 export function characterSelectionPhase(gameState: GameState, handleCharacterSelect: (character: Character) => void) {
   return <div>
