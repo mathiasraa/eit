@@ -346,6 +346,12 @@ const GamePage: React.FC = () => {
   );
 };
 
+const ProgressBar: React.FC<{ value: number; max: number; colorClass: string }> = ({ value, max, colorClass }) => (
+  <div className="h-2 bg-slate-700 rounded-full">
+    <div className={`h-full rounded-full ${colorClass}`} style={{ width: `${(value/max)*100}%` }}></div>
+  </div>
+);
+
 const GameStateView: React.FC<{
   gameState: GameState;
   onGameStateChange: Dispatch<SetStateAction<GameState>>;
@@ -794,12 +800,7 @@ const GameStateView: React.FC<{
                         </span>
                         <span className="text-sm">{50}/100</span>
                       </div>
-                      <div className="h-2 bg-slate-700 rounded-full">
-                        <div
-                          className={`h-full rounded-full`}
-                          style={{ width: `${50}%` }}
-                        ></div>
-                      </div>
+                      <ProgressBar value={50} max={100} colorClass="bg-blue-500" />
                     </div>
 
                     <div className="text-sm text-slate-400 mt-4">
@@ -958,48 +959,28 @@ const GameStateView: React.FC<{
                         <span className="text-sm">Building Structure</span>
                         <span className="text-sm font-medium">45%</span>
                       </div>
-                      <div className="h-2 bg-slate-700 rounded-full">
-                        <div
-                          className="h-full bg-blue-500 rounded-full"
-                          style={{ width: "45%" }}
-                        ></div>
-                      </div>
+                      <ProgressBar value={45} max={100} colorClass="bg-blue-500" />
                     </div>
                     <div>
                       <div className="flex justify-between items-center mb-1">
                         <span className="text-sm">Location Risk</span>
                         <span className="text-sm font-medium">30%</span>
                       </div>
-                      <div className="h-2 bg-slate-700 rounded-full">
-                        <div
-                          className="h-full bg-blue-500 rounded-full"
-                          style={{ width: "30%" }}
-                        ></div>
-                      </div>
+                      <ProgressBar value={30} max={100} colorClass="bg-blue-500" />
                     </div>
                     <div>
                       <div className="flex justify-between items-center mb-1">
                         <span className="text-sm">Building Size</span>
                         <span className="text-sm font-medium">15%</span>
                       </div>
-                      <div className="h-2 bg-slate-700 rounded-full">
-                        <div
-                          className="h-full bg-blue-500 rounded-full"
-                          style={{ width: "15%" }}
-                        ></div>
-                      </div>
+                      <ProgressBar value={15} max={100} colorClass="bg-blue-500" />
                     </div>
                     <div>
                       <div className="flex justify-between items-center mb-1">
                         <span className="text-sm">Budget Allocation</span>
                         <span className="text-sm font-medium">10%</span>
                       </div>
-                      <div className="h-2 bg-slate-700 rounded-full">
-                        <div
-                          className="h-full bg-blue-500 rounded-full"
-                          style={{ width: "10%" }}
-                        ></div>
-                      </div>
+                      <ProgressBar value={10} max={100} colorClass="bg-blue-500" />
                     </div>
                   </div>
                 </div>
