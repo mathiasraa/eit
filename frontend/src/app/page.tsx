@@ -436,7 +436,7 @@ const GameStateView: React.FC<{
                 <Image
                   src="/nepal.png"
                   alt="Nepal Earthquake Devastation"
-                  layout="fill"
+                  fill
                   objectFit="cover"
                   className="rounded-lg"
                 />
@@ -518,7 +518,7 @@ const GameStateView: React.FC<{
                     <Image
                       src={character.image}
                       alt={`${character.name}`}
-                      layout="fill"
+                      fill
                       objectFit="cover"
                     />
                   </div>
@@ -544,7 +544,7 @@ const GameStateView: React.FC<{
             <Image
               src="/map.jpg"
               alt="Map of Nepal"
-              layout="fill"
+              fill
               objectFit="cover"
               className="opacity-90"
             />
@@ -600,7 +600,7 @@ const GameStateView: React.FC<{
                 <Image
                   src={gameState.location.image}
                   alt={gameState.location.name}
-                  layout="fill"
+                  fill
                   objectFit="cover"
                   className="rounded-lg"
                 />
@@ -730,7 +730,7 @@ const GameStateView: React.FC<{
                     <Image
                       src={value.src}
                       alt={`${key} Building Size`}
-                      layout="fill"
+                      fill
                       objectFit="contain"
                     />
                     <div className="absolute bottom-0 right-0 bg-slate-900/80 px-3 py-1 m-2 rounded-md">
@@ -814,7 +814,7 @@ const GameStateView: React.FC<{
                     <Image
                       src={value.src}
                       alt={`${key} Building Structure`}
-                      layout="fill"
+                      fill
                       objectFit="cover"
                     />
                     <div className="absolute bottom-0 right-0 bg-slate-900/80 px-3 py-1 m-2 rounded-md">
