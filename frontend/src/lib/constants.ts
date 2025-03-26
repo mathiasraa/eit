@@ -300,9 +300,9 @@ export const availableCharacters: Character[] = [
     id: "rural-farmer",
     name: "Anil Tamang",
     description: "Rural farmer with limited resources but practical knowledge",
-    occupation: "Subsistence Farmer",
-    age: 45,
-    budgetModifier: 0.8, // 80% of base budget
+    education: "Illiterate",
+    age: 48,
+    budget: (((11450 / 101) * 12 * 1) / 1.6) * 5, // 80% of base budget
     image: "/character.png",
     backstory:
       "Anil has lived his entire life in a small village outside Kathmandu, working the same land as his ancestors. While his financial resources are limited, his practical knowledge of building with local materials could prove valuable.",
@@ -312,71 +312,100 @@ export const availableCharacters: Character[] = [
     name: "Priya Sharma",
     description:
       "Urban professional with higher income but less practical experience",
-    occupation: "Software Engineer",
-    age: 32,
-    budgetModifier: 1.2, // 120% of base budget
+    education: "Bachelor level",
+    age: 38,
+    budget: (((24000 / 101) * 12 * 1) / 1.6) * 5, // 120% of base budget
     image: "/character.png",
     backstory:
-      "Priya moved to Kathmandu after university to work for a growing tech company. Her higher income provides more resources, but her apartment building was constructed quickly during the urban boom with questionable adherence to building codes.",
+      "Priya moved to Kathmandu after university to work for a growing tech company. His higher income provides more resources, but his apartment building was constructed quickly during the urban boom with questionable adherence to building codes.",
   },
   {
     id: "village-teacher",
     name: "Dipak Gurung",
     description:
       "Village teacher with community connections and moderate resources",
-    occupation: "Primary School Teacher",
-    age: 38,
-    budgetModifier: 1.0, // 100% of base budget
+    education: "Non formal education",
+    age: 45,
+    budget: (((15900 / 101) * 12 * 1) / 1.6) * 5, // 120% of base budget
     image: "/character.png",
     backstory:
       "As a respected teacher in his community, Dipak has developed strong local networks that could help during a crisis. His modest income provides average resources for preparation.",
   },
   {
-    id: "elderly-resident",
+    id: "housekeeper",
     name: "Maya Thapa",
     description:
-      "Elderly resident with limited mobility but valuable experience",
-    occupation: "Retired Shopkeeper",
-    age: 72,
-    budgetModifier: 0.9, // 90% of base budget
+      "Maya Thapa works as a housekeeper, handling tasks like cleaning, cooking, and organizing. Her reliability and attention to detail make her a trusted presence in the community.",
+    education: "Illiterate",
+    age: 51,
+    budget: (((11910 / 101) * 12 * 1) / 1.6) * 5, // 90% of base budget
     image: "/character.png",
     backstory:
-      "Maya has lived through previous earthquakes and has invaluable historical knowledge. However, her age and limited mobility present additional challenges during emergencies.",
+      "Maya has spent years as a housekeeper, taking pride in maintaining clean and organized homes. Known for her strong work ethic and warm personality, she finds fulfillment in helping others create comfortable living spaces.",
   },
 ];
 export const availableLocations: Location[] = [
   {
-    id: "kathmandu",
-    name: "Kathmandu",
+    id: "sindhupalchok",
+    name: "Sindhupalchok",
     region: "Central Nepal",
     description:
-      "The densely populated capital city with many older buildings and infrastructure",
-    earthquakeRiskFactor: 0.7, // High risk
-    coordinates: { x: 60, y: 68 },
-    image: "/locations/kathmandu.png",
+      "A mountainous district severely affected by the 2015 earthquake with high seismic activity",
+    earthquakeRiskFactor: 0.96, // Very high earthquake risk
+    geotechnicalRiskFactor: 0.23, // Moderate geotechnical risk
+    coordinates: {
+      lat: 27.9512,
+      lng: 85.6846,
+    },
+    image: "/locations/kathmandu.png", // Using existing image as placeholder
     historicalContext:
-      "Kathmandu experienced severe damage during the 2015 earthquake, with many historic buildings collapsing. Its high population density and older infrastructure contributed to higher casualty rates.",
+      "Sindhupalchok was one of the worst-affected districts in the 2015 earthquake, with nearly 2,000 casualties and widespread destruction of buildings and infrastructure. Its mountainous terrain contributed to numerous landslides triggered by the quake.",
   },
   {
     id: "gorkha",
     name: "Gorkha",
-    region: "Epicenter Region",
+    region: "Central-Western Nepal",
     description: "Rural district that was the epicenter of the 2015 earthquake",
-    earthquakeRiskFactor: 0.9, // Very high risk
-    coordinates: { x: 53, y: 59 },
+    earthquakeRiskFactor: 0.6, // High earthquake risk
+    geotechnicalRiskFactor: 0.13, // Low-moderate geotechnical risk
+    coordinates: {
+      lat: 28.0,
+      lng: 84.6333,
+    },
     image: "/locations/gorkha.png",
     historicalContext:
-      "As the epicenter of the 2015 earthquake, Gorkha experienced catastrophic damage. Many remote villages in this district were completely cut off from aid for days.",
+      "As the epicenter of the 2015 earthquake, Gorkha experienced catastrophic damage. Many remote villages in this district were completely cut off from aid for days, though its relatively stable ground conditions limited additional geotechnical hazards.",
   },
   {
-    id: "mustang",
-    name: "Mustang",
-    region: "Northern Nepal",
-    description: "Remote mountainous region with traditional building methods",
-    earthquakeRiskFactor: 0.4, // Medium-low risk
-    coordinates: { x: 46, y: 32 },
-    image: "/locations/mustang.png",
+    id: "makwanpur",
+    name: "Makwanpur",
+    region: "Central Nepal",
+    description:
+      "A diverse district with both hilly terrain and flat land areas with lower seismic risk",
+    earthquakeRiskFactor: 0.24, // Low earthquake risk
+    geotechnicalRiskFactor: 0.12, // Low geotechnical risk
+    coordinates: {
+      lat: 27.5545,
+      lng: 85.0233,
+    },
+    image: "/locations/mustang.png", // Using existing image as placeholder
     historicalContext:
-      "Mustang's traditional building techniques and less dense population resulted in fewer casualties, though its remoteness presented challenges for receiving aid.",
+      "Makwanpur experienced relatively less damage during the 2015 earthquake compared to northern districts. Its varied terrain includes both susceptible hill slopes and more stable flat areas, providing a diverse range of building conditions.",
+  },
+  {
+    id: "sindhuli",
+    name: "Sindhuli",
+    region: "Central-Eastern Nepal",
+    description:
+      "A hilly district with moderate earthquake risk but higher landslide potential",
+    earthquakeRiskFactor: 0.3, // Moderate earthquake risk
+    geotechnicalRiskFactor: 0.2, // Moderate geotechnical risk
+    coordinates: {
+      lat: 27.2569,
+      lng: 85.9713,
+    },
+    image: "/locations/gorkha.png", // Using existing image as placeholder
+    historicalContext:
+      "Sindhuli district experienced moderate damage during the 2015 earthquake, but its hilly terrain makes it susceptible to rainfall-induced landslides which can be triggered by even moderate seismic activity, increasing the overall risk to buildings and infrastructure.",
   },
 ];

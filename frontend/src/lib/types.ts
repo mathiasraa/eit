@@ -26,7 +26,7 @@ export type HouseType =
   | "5_year_old"
   | "10_year_old"
   | "15_year_old"
-  | "20_year_old"
+  | "20_year_old";
 
 export type FoundationType =
   | "mud_mortar_stone_brick"

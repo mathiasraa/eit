@@ -1,9 +1,10 @@
+import QueryContext from "@/contexts/QueryContext";
 import "@/styles/custom-animations.css";
+import "@/styles/leaflet-custom.css"; // Add Leaflet custom styles
 import type { Metadata } from "next";
 import { ViewTransitions } from "next-view-transitions";
 import { Geist, Geist_Mono, Inter } from "next/font/google";
 import "./globals.css";
-import QueryContext from "@/contexts/QueryContext";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",

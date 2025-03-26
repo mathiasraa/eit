@@ -22,9 +22,7 @@ export function characterSelectionPhase(
       <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
         {availableCharacters.map((character) => {
           const isSelected = gameState.character?.id === character.id;
-          const modifiedBudget = Math.round(
-            gameState.baseBudget * character.budgetModifier
-          );
+          const modifiedBudget = Math.round(character.budget);
 
           return (
             <div
@@ -50,8 +48,8 @@ export function characterSelectionPhase(
                 </div>
 
                 <div className="text-sm">
-                  <span className="font-medium">Occupation:</span>{" "}
-                  {character.occupation}
+                  <span className="font-medium">Education:</span>{" "}
+                  {character.education}
                 </div>
 
                 <div className="mt-4 bg-slate-700 p-3 rounded-lg">

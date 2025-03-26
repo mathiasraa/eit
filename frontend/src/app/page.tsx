@@ -15,7 +15,7 @@ import { SimulationPhase } from "../components/pages/simulationPhase";
 
 const gameStateDefaults: GameState = {
   phase: GamePhase.Introduction,
-  baseBudget: 200000, // Base budget amount
+  baseBudget: 0, // Starting budget amount
   totalBudget: 0, // Will be modified based on character selection
   availableFunds: 0, // Will be modified based on character selection
   simulationComplete: false,
@@ -250,9 +250,7 @@ const GameStateView: React.FC<{
 
   function handleCharacterSelect(character: Character) {
     onGameStateChange((s) => {
-      const modifiedBudget = Math.round(
-        s.baseBudget * character.budgetModifier
-      );
+      const modifiedBudget = Math.round(character.budget);
       return {
         ...s,
         character: character,

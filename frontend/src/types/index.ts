@@ -1,15 +1,21 @@
 import { buildingSizeTypes, buildingTypes } from "@/lib/constants";
 
-export type Location = {
+export interface LocationCoordinates {
+  lat: number; // Latitude
+  lng: number; // Longitude
+}
+
+export interface Location {
   id: string;
   name: string;
   region: string;
   description: string;
   earthquakeRiskFactor: number; // 0-1 where higher means more risk
-  coordinates: { x: number; y: number }; // For positioning on the map
+  geotechnicalRiskFactor: number; // 0-1 where higher means more risk
+  coordinates: LocationCoordinates; // For positioning on the map
   image: string;
   historicalContext: string;
-};
+}
 
 export enum GamePhase {
   Introduction = "Introduction",
@@ -37,13 +43,13 @@ export type GameState = {
   lessons: string[];
 };
 
-export type Character = {
+export interface Character {
   id: string;
   name: string;
   description: string;
-  occupation: string;
+  education: string;
   age: number;
-  budgetModifier: number;
+  budget: number;
   image: string;
   backstory: string;
-};
+}
