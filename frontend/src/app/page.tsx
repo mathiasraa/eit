@@ -205,7 +205,7 @@ const GameStateView: React.FC<{
 
   function handleSimulationSuccess(data: ModelResult) {
     const earthquakeIntensity = 7.8;
-    const survivalProbability = Math.round(100 - data.prediction);
+    const survivalProbability = data.prediction;
 
     const lessons = generateLessons(gameState);
 

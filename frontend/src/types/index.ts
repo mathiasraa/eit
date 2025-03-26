@@ -39,7 +39,7 @@ export type GameState = {
   buildingSize?: (typeof buildingSizeTypes)[keyof typeof buildingSizeTypes];
   buildingStructure?: (typeof buildingTypes)[keyof typeof buildingTypes];
   earthquakeIntensity?: number;
-  survivalProbability?: number;
+  survivalProbability?: [[number, number, number]];
   simulationComplete: boolean;
   lessons: string[];
   results?: ModelResult;

@@ -4,7 +4,19 @@ import { GameState } from "@/types";
 import { ProgressBar } from "@/components/ui/ProgressBar";
 
 export function resultPhase(gameState: GameState) {
-  const survivalProbability = Math.round(gameState.survivalProbability || 0);
+  const survivalProbability = gameState.survivalProbability![0] || [100, 0, 0];
+
+  // const survivalProbability = [1, 0, 0];
+
+  const survivalProbabilityScore =
+    100 -
+    (100 *
+      (0 * survivalProbability[0] +
+        1 * survivalProbability[1] +
+        2 * survivalProbability[2])) /
+      2;
+
+  console.log(survivalProbability, survivalProbability[0]);
   return (
     <div className="bg-slate-800 p-8 rounded-xl shadow-lg">
       <h2 className="text-2xl font-bold mb-4">Earthquake Simulation Results</h2>
@@ -82,22 +94,48 @@ export function resultPhase(gameState: GameState) {
             <div className="mb-6">
               <div className="flex justify-between items-center mb-1">
                 <span className="text-md">Survival Probability</span>
-                <span className="font-bold">{survivalProbability}%</span>
+                {/* <span className="font-bold">{survivalProbability}%</span> */}
               </div>
-              <div className="h-4 bg-slate-800 rounded-full overflow-hidden">
+              <div className="h-8 bg-slate-800 rounded-full overflow-hidden flex text-black text-sm font-bold">
                 <div
-                  className={`h-full ${
-                    (survivalProbability / 100 || 0) > 0.7
+                  className={`h-full flex items-center justify-center ${
+                    (survivalProbabilityScore / 100 || 0) > 0.7
                       ? "bg-green-500"
-                      : (survivalProbability / 100 || 0) > 0.4
+                      : (survivalProbabilityScore / 100 || 0) > 0.4
                       ? "bg-yellow-500"
                       : "bg-red-500"
                   }`}
                   style={{
-                    width: `${(survivalProbability / 100 || 0) * 100}%`,
+                    width: `${(survivalProbabilityScore / 100 || 0) * 100}%`,
                   }}
-                ></div>
+                >
+                  {`${Math.round(survivalProbabilityScore)}%`}
+                </div>
               </div>
+
+              {/* <div
+                  className="h-full bg-green-500 flex items-center justify-center"
+                  style={{ width: `${survivalProbability[0] * 100}%` }}
+                >
+                  {`${Math.round(survivalProbability[0] * 100)}%`}
+                </div>
+                <div
+                  className="h-full bg-yellow-500 flex items-center justify-center"
+                  style={{
+                    width: `${survivalProbability[1] * 100}%`,
+                  }}
+                >
+                  {`${Math.round(survivalProbability[1] * 100)}%`}
+                </div>
+                <div
+                  className="h-full bg-red-500 flex items-center justify-center"
+                  style={{
+                    width: `${survivalProbability[2] * 100}%`,
+                  }}
+                >
+                  {`${Math.round(survivalProbability[2] * 100)}%`}
+                </div>
+              </div> */}
             </div>
 
             <div className="bg-slate-800 p-4 rounded-lg">

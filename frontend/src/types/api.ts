@@ -76,5 +76,5 @@ export type ModelResult = {
     roof_type_Bamboo_Timber: number;
     roof_type_RCC_RB_RBC: number;
   };
-  prediction: number;
+  prediction: [[number, number, number]];
 };
