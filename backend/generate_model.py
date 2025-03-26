@@ -24,7 +24,7 @@ building_structure = pd.read_csv(path + "/csv_building_structure.csv")
 dmg_assesment = pd.read_csv(path + "/csv_building_damage_assessment.csv")
 
 print("Pre Processing data...")
-dmg_assesment = dmg_assesment.drop(columns=[col for col in dmg_assesment.columns if 'has_geotechnical_risk_' not in col and col != 'building_id'])
+dmg_assesment = dmg_assesment.drop(columns=[col for col in dmg_assesment.columns if 'has_geotechnical_risk' != col and col != 'building_id'])
 
 building_structure = building_structure.merge(dmg_assesment, on='building_id')
 
