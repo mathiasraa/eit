@@ -19,7 +19,7 @@ export function locationSelectPhase(
 
       <div className="relative w-full mb-6">
         {/* OpenStreetMap of Nepal */}
-        <NepalMap 
+        <NepalMap
           locations={availableLocations}
           selectedLocationId={gameState.location?.id || null}
           onLocationSelect={handleLocationSelect}
@@ -90,7 +90,9 @@ export function locationSelectPhase(
                       : "bg-green-500"
                   }`}
                   style={{
-                    width: `${gameState.location.geotechnicalRiskFactor * 100}%`,
+                    width: `${
+                      gameState.location.geotechnicalRiskFactor * 100
+                    }%`,
                   }}
                 ></div>
               </div>
