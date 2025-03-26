@@ -42,10 +42,8 @@ def predict():
 
         # Optionally transform the prediction output using your transformer.
         # The transformer here is assumed to expect a 2D array.
-        prediction_transformed = float(
-            transformer.transform(np.array([[prediction]]))[0, 0]
-        )
-        prediction_transformed = round(prediction_transformed * 100, 1)
+        
+        prediction_transformed = round(float(prediction) * 50, 1)
 
         # Compute SHAP values for the sample. Here, we compute SHAP values on the input features.
         shap_values = shap_explainer.shap_values(input_df)
