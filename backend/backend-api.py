@@ -3,68 +3,54 @@ import joblib
 import pandas as pd
 import numpy as np
 import shap
-
 from flask_cors import CORS
 
 app = Flask(__name__)
-
-# Allow CORS for all endpoints
 CORS(app, origins="*")
 
-
-# Load the model bundle once at startup
+# Load model and explainer at startup
 bundle = joblib.load("rf_bundle.pkl")
 model = bundle["model"]
-transformer = bundle["transformer"]  # Optional transformer for prediction output
 feature_keys = bundle["feature_names"]
-shap_explainer = bundle["shap_explainer"]  # SHAP explainer for the model
-
+shap_explainer = bundle["shap_explainer"]  # This is a TreeExplainer or similar
 
 @app.route("/api/predict", methods=["POST"])
 def predict():
     try:
-        # Get JSON data from the request
         data = request.get_json()
 
-        # Check if all required keys are present
+        # Check for missing keys
         missing_keys = [key for key in feature_keys if key not in data]
         if missing_keys:
             return jsonify({"error": f"Missing keys: {missing_keys}"}), 400
 
-        # Convert the input data into a DataFrame with the proper feature order
+        # Create DataFrame in the correct order
         input_df = pd.DataFrame([data], columns=feature_keys)
 
-        # If you are using a transformer for the features before prediction, uncomment:
-        # input_df = transformer.transform(input_df)
+        # 1) Predict using your multi-output regressor
+        #    This might return something like array([[pred_for_output_0, pred_for_output_1, ...]])
+        prediction = model.predict_proba(input_df)
 
-        # Predict using the model
-        prediction = model.predict(input_df)[0]
+        # 2) Compute SHAP values for each output
+        #    For multi-output regression, shap_values is typically a list of arrays,
+        #    each array: shape (n_samples, n_features)
+        #shap_values = shap_explainer.shap_values(input_df)
 
-        # Optionally transform the prediction output using your transformer.
-        # The transformer here is assumed to expect a 2D array.
-        
-        prediction_transformed = round(float(prediction) * 50, 1)
+        # 3) Convert SHAP values to a JSON-friendly structure
+        #    We'll build a dictionary keyed by output index
 
-        # Compute SHAP values for the sample. Here, we compute SHAP values on the input features.
-        shap_values = shap_explainer.shap_values(input_df)
-        # For a single sample, shap_values is a 2D array with shape (1, n_features)
-        feature_importance = {
-            key: float(shap_values[0][i]) for i, key in enumerate(feature_keys)
+
+        # 4) Format the prediction as well. 'prediction' might be array([[x0, x1, ...]]) for one row
+        #    So let's flatten it, e.g., .tolist()[0] is common
+        result = {
+            "prediction": prediction.tolist(),
+            #"feature_importance": all_outputs_importance
         }
 
-        return (
-            jsonify(
-                {
-                    "prediction": prediction_transformed,
-                    "feature_importance": feature_importance,
-                }
-            ),
-            200,
-        )
+        return jsonify(result), 200
 
     except Exception as e:
         return jsonify({"error": str(e)}), 500
-
 
 if __name__ == "__main__":
     app.run(debug=True)

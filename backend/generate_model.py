@@ -6,10 +6,9 @@ from sklearn.model_selection import train_test_split
 import shap
 from collections import Counter
 from imblearn.over_sampling import SMOTE
-from sklearn.ensemble import RandomForestRegressor
+from sklearn.ensemble import RandomForestClassifier
 from sklearn.metrics import mean_squared_error
 import numpy as np
-from sklearn.preprocessing import QuantileTransformer
 import joblib
 from lib.lib import Import_data
 
@@ -92,24 +91,42 @@ X = X.to_numpy()
 
 y = building_structure["damage_grade"].astype("Int64").to_numpy()
 # y 0 is 0, 1 is 1, 2 is 1, 3 is 1, 4 is 2
-y = np.where(y == 0, 0, np.where(y == 1, 1, np.where(y == 2, 1, np.where(y == 3, 1, 2))))
+# y = np.where(y == 0, 0, np.where(y == 1, 1, np.where(y == 2, 1, np.where(y == 3, 1, 2))))
+
+# y 0 is 0, y 1 is 0, y 2 is 1, y 3 is 2, y 4 is 2
+y = np.where(y <= 1, 0, np.where(y == 2, 1, 2))
+
 
 X_train, X_temp, y_train, y_temp = train_test_split(X, y, test_size=0.3, random_state=42)
 X_val, X_test, y_val, y_test = train_test_split(X_temp, y_temp, test_size=0.5, random_state=42)
 
+print("Saving examples...")
+examples = {
+"y_1": y_test[0],
+'y_0': y_test[13],
+'y_2': y_test[2],
+'x_1': X_test[0],
+'x_0': X_test[13],
+'x_2': X_test[2]
+}
+
+joblib.dump({'examples': examples,
+             'keys': keys
+}
+            , 'examples.pkl')
+
 print("Over sampling data...")
 print("Original training distribution:", Counter(y_train))
-smote = SMOTE(random_state=42)
-X_train, y_train = smote.fit_resample(X_train, y_train)
+# smote = SMOTE(random_state=42)
+# X_train, y_train = smote.fit_resample(X_train, y_train)
 print("Sampled training distribution:", Counter(y_train))
 
 print("Training model...")
 # now do a random forest regressor
 
-reg = RandomForestRegressor(n_estimators=50, random_state=42)
+reg = RandomForestClassifier(n_estimators=50, random_state=42)
 reg.fit(X_train, y_train)
 y_pred = reg.predict(X_test)
-print(mean_squared_error(y_test, y_pred))
 
 
 print("Creating transformer for data normilization...")
@@ -118,17 +135,12 @@ y_pred_test = y_pred
 # y_pred_test should be a NumPy array
 y_pred_test = np.array(y_pred_test).reshape(-1, 1)  # Ensure it's 2D for the transformer
 
-# QuantileTransformer with uniform output distribution
-qt = QuantileTransformer(n_quantiles=1000, output_distribution='uniform', random_state=42)
-qt.fit(y_pred_test)
-
 print("Generating shap explainer...")
 explainer = shap.TreeExplainer(reg)
 
 print("Saving model...")
 joblib.dump({
     'model': reg,
-    'transformer': qt,  # if you're using one
     'feature_names': keys,
     'shap_explainer': explainer
 }, 'rf_bundle.pkl')
