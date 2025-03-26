@@ -14,13 +14,8 @@ export type ModelData = {
   has_superstructure_rc_non_engineered: Binary;
   has_superstructure_rc_engineered: Binary;
   has_superstructure_other: Binary;
-  has_geotechnical_risk_land_settlement: Binary;
-  has_geotechnical_risk_fault_crack: Binary;
-  has_geotechnical_risk_liquefaction: Binary;
-  has_geotechnical_risk_rock_fall: Binary;
-  has_geotechnical_risk_flood: Binary;
-  has_geotechnical_risk_other: Binary;
   height_plinth_ratio: number;
+  geotechnical_risk: number;
   "foundation_type_Bamboo/Timber": Binary;
   "foundation_type_Cement-Stone/Brick": Binary;
   "foundation_type_Mud mortar-Stone/Brick": Binary;

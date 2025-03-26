@@ -3,7 +3,7 @@ import type { ModelData } from "@/types/api";
 import assert from "assert";
 
 export function gameStateAdapter(gameState: GameState): ModelData {
-  const { buildingSize, buildingStructure } = gameState;
+  const { buildingSize, buildingStructure, location } = gameState;
 
   assert(buildingSize, "Building size is required");
   assert(buildingStructure, "Building structure is required");
@@ -33,12 +33,7 @@ export function gameStateAdapter(gameState: GameState): ModelData {
       "has_superstructure_rc_engineered" in buildingStructure ? 1 : 0,
     has_superstructure_other:
       "has_superstructure_other" in buildingStructure ? 1 : 0,
-    has_geotechnical_risk_land_settlement: 0,
-    has_geotechnical_risk_fault_crack: 0,
-    has_geotechnical_risk_liquefaction: 0,
-    has_geotechnical_risk_rock_fall: 0,
-    has_geotechnical_risk_flood: 0,
-    has_geotechnical_risk_other: 0,
+    geotechnical_risk: location?.geotechnicalRiskFactor || 0,
     height_plinth_ratio: getHeightPlinthRatio(buildingSize),
     "foundation_type_Bamboo/Timber": convertBinary(
       "foundation_type",
