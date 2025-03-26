@@ -47,23 +47,28 @@ export function buildingSizePhase(
 
                 <div className="mb-4 text-slate-300">{value.description}</div>
 
-                <div className="grid grid-cols-3 gap-2">
-                  <div className="bg-slate-700 rounded-lg p-3 text-sm">
-                    <span className="font-medium block mb-1">Area:</span>
+                <div className="grid grid-cols-1 gap-2">
+                  <div className="bg-slate-700 rounded-lg px-3 py-2 text-sm flex justify-between items-center">
+                    <span className="font-medium block">
+                      Ground floor area:
+                    </span>
                     {formaPlinthAreaToM2(value.plinth_area_sq_ft)}
                   </div>
-                  <div className="bg-slate-700 rounded-lg p-3 text-sm">
-                    <span className="font-medium block mb-1">Floors:</span>
+                  <div className="bg-slate-700 rounded-lg px-3 py-2 text-sm flex justify-between items-center">
+                    <span className="font-medium block">Floors:</span>
                     {value.count_floors_pre_eq}
                   </div>
-                  <div className="bg-slate-700 rounded-lg p-3 text-sm">
-                    <span className="font-medium block mb-1">Capacity:</span>
+                  <div className="bg-slate-700 rounded-lg px-3 py-2 text-sm flex justify-between items-center">
+                    <span className="font-medium block">Capacity:</span>
                     {value.capacity}
                   </div>
                 </div>
 
                 <div className="mt-4 text-sm text-slate-400">
-                  <span className="font-medium">Nepal Insight:</span>{" "}
+                  <span className="font-medium text-slate-300">
+                    Nepal Insight:
+                  </span>
+                  <br />
                   {value.insight}
                 </div>
               </div>
