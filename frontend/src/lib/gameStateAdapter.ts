@@ -33,7 +33,7 @@ export function gameStateAdapter(gameState: GameState): ModelData {
       "has_superstructure_rc_engineered" in buildingStructure ? 1 : 0,
     has_superstructure_other:
       "has_superstructure_other" in buildingStructure ? 1 : 0,
-    geotechnical_risk: location?.geotechnicalRiskFactor || 0,
+    has_geotechnical_risk: location?.geotechnicalRiskFactor || 0,
     height_plinth_ratio: getHeightPlinthRatio(buildingSize),
     "foundation_type_Bamboo/Timber": convertBinary(
       "foundation_type",

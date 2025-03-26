@@ -2,6 +2,7 @@
 
 import { gameStateAdapter } from "@/lib/gameStateAdapter";
 import type { GameState } from "@/types";
+import type { ModelResult } from "@/types/api";
 import { useMutation } from "@tanstack/react-query";
 import { useEffect } from "react";
 
@@ -14,17 +15,24 @@ export function SimulationPhase({
   gameState: GameState;
   handleSimulationSuccess: (data: unknown) => void;
 }) {
-  const { mutate, isPending } = useMutation({
-    mutationFn: async (gameState: GameState) =>
-      await fetch(`${BACKEND_ENDPOINT}/api/predict`, {
+  const { mutate, isPending } = useMutation<
+    ModelResult,
+    ModelResult,
+    GameState
+  >({
+    mutationFn: async (gameState: GameState) => {
+      const req = await fetch(`${BACKEND_ENDPOINT}/api/predict`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
         },
         body: JSON.stringify(gameStateAdapter(gameState)),
-      }),
+      });
+
+      return req.json() as Promise<ModelResult>;
+    },
     onSuccess: async (data) => {
-      const json = await data.json();
+      const json = data;
       handleSimulationSuccess(json);
     },
   });
