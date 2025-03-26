@@ -2,7 +2,12 @@
 import { availableLocations } from "@/lib/constants";
 import { GameState, Location } from "@/types";
 import Image from "next/image";
-import NepalMap from "../ui/NepalMap";
+
+import dynamic from "next/dynamic";
+
+const DynamicNepalMap = dynamic(() => import("../ui/NepalMap"), {
+  loading: () => <p>Loading...</p>,
+});
 
 export function locationSelectPhase(
   gameState: GameState,
@@ -19,7 +24,7 @@ export function locationSelectPhase(
 
       <div className="relative w-full mb-6">
         {/* OpenStreetMap of Nepal */}
-        <NepalMap
+        <DynamicNepalMap
           locations={availableLocations}
           selectedLocationId={gameState.location?.id || null}
           onLocationSelect={handleLocationSelect}

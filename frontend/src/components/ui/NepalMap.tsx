@@ -4,24 +4,9 @@ import { Location } from "@/types";
 import { MapContainer, TileLayer, Marker, Tooltip } from "react-leaflet";
 import "leaflet/dist/leaflet.css";
 import { useEffect, useState } from "react";
-import L from "leaflet";
+import { divIcon } from "leaflet";
 
 // Fix Leaflet marker icon issue in Next.js
-const createMarkerIcon = (color: string, size: number = 25) => {
-  return L.divIcon({
-    className: "custom-marker-icon",
-    html: `<div style="
-      background-color: ${color};
-      width: ${size}px;
-      height: ${size}px;
-      border-radius: 50%;
-      border: 3px solid white;
-      box-shadow: 0 0 4px rgba(0,0,0,0.4);
-    "></div>`,
-    iconSize: [size, size],
-    iconAnchor: [size / 2, size / 2],
-  });
-};
 
 interface NepalMapProps {
   locations: Location[];
@@ -37,6 +22,22 @@ export default function NepalMap({
   // Center of Nepal: approximately 28.3949° N, 84.1240° E
   const NEPAL_CENTER: [number, number] = [28.3949, 84.124];
   const DEFAULT_ZOOM = 7;
+
+  const createMarkerIcon = (color: string, size: number = 25) => {
+    return divIcon({
+      className: "custom-marker-icon",
+      html: `<div style="
+        background-color: ${color};
+        width: ${size}px;
+        height: ${size}px;
+        border-radius: 50%;
+        border: 3px solid white;
+        box-shadow: 0 0 4px rgba(0,0,0,0.4);
+      "></div>`,
+      iconSize: [size, size],
+      iconAnchor: [size / 2, size / 2],
+    });
+  };
 
   // We need client-side only rendering for Leaflet
   const [isClient, setIsClient] = useState(false);
