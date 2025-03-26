@@ -186,6 +186,7 @@ export const buildingTypes = {
     has_superstructure_bamboo: 1,
     base_cost: 909, // 1 LAKH NPR
     src: "/building_types/bamboo.png",
+    averageDamageGrade: 2.4688940092165894,
   },
 
   "Basic Stone/Brick": {
@@ -197,6 +198,7 @@ export const buildingTypes = {
     has_superstructure_mud_mortar_stone: 1,
     base_cost: 1455, // NPR 100,000 to NPR 500,000
     src: "/building_types/brick_mud.png",
+    averageDamageGrade: 4.005705185903206,
   },
 
   "Improved Stone/Brick": {
@@ -208,6 +210,7 @@ export const buildingTypes = {
     has_superstructure_mud_mortar_stone: 1,
     base_cost: 3637,
     src: "/building_types/improved_brick.png",
+    averageDamageGrade: 4.031253052055865,
   },
 
   "Modern Concrete": {
@@ -219,6 +222,7 @@ export const buildingTypes = {
     has_superstructure_cement_mortar_brick: 1,
     base_cost: 7275,
     src: "/building_types/modern_concrete.png",
+    averageDamageGrade: 1.6486562942008485,
   },
 };
 
