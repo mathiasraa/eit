@@ -34,7 +34,9 @@ export function introductionPhase() {
               src="/nepal.png"
               alt="Nepal Earthquake Devastation"
               fill
-              objectFit="cover"
+              style={{
+                objectFit: "cover",
+              }}
               className="rounded-lg"
             />
           </div>
