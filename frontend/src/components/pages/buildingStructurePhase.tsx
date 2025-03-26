@@ -5,6 +5,7 @@ import { formatCost } from "@/lib/formatCost";
 import { cn } from "@/lib/utils";
 import { GameState } from "@/types";
 import Image from "next/image";
+import { buildingStructureTypes } from "@/lib/choices";
 
 export function buildingStructurePhase(
   gameState: GameState,
@@ -31,6 +32,11 @@ export function buildingStructurePhase(
             gameState.availableFunds +
               (gameState.buildingStructure?.base_cost || 0);
 
+            (value.base_cost || 0) <=
+            gameState.availableFunds + (value.base_cost || 0);
+          
+          const averageDamageGrade = value.averageDamageGrade; // Get the damage grade
+          const damageDescription = value.damage_description
           return (
             <div
               key={key}
@@ -55,16 +61,14 @@ export function buildingStructurePhase(
                     <span className="text-sm font-medium">
                       Earthquake Resistance
                     </span>
-                    <span className="text-sm">{50}/100</span>
+                    <span className="text-sm">{averageDamageGrade}/100</span>
                   </div>
-                  <ProgressBar value={50} max={100} colorClass="bg-blue-500" />
+                  <ProgressBar value={averageDamageGrade} max={100} colorClass="bg-blue-500" />
                 </div>
 
                 <div className="text-sm text-slate-400 mt-4">
                   <span className="font-medium">Nepal Data:</span>{" "}
-                  {
-                    "Buildings with this structure had a 65% survival rate in the Nepal earthquake."
-                  }
+                    {damageDescription}
                 </div>
               </div>
 
