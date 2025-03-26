@@ -302,7 +302,7 @@ export const availableCharacters: Character[] = [
     description: "Rural farmer with limited resources but practical knowledge",
     education: "Illiterate",
     age: 48,
-    budget: 11450/101*12*1/1.6, // 80% of base budget
+    budget: 11450/101*12*1/1.6*5, // 80% of base budget
     image: "/character.png",
     backstory:
       "Anil has lived his entire life in a small village outside Kathmandu, working the same land as his ancestors. While his financial resources are limited, his practical knowledge of building with local materials could prove valuable.",
@@ -314,7 +314,7 @@ export const availableCharacters: Character[] = [
       "Urban professional with higher income but less practical experience",
     education: "Bachelor level",
     age: 38,
-    budget: 24000/101*12*1/1.6, // 120% of base budget
+    budget: 24000/101*12*1/1.6*5, // 120% of base budget
     image: "/character.png",
     backstory:
       "Priya moved to Kathmandu after university to work for a growing tech company. His higher income provides more resources, but his apartment building was constructed quickly during the urban boom with questionable adherence to building codes.",
@@ -326,7 +326,7 @@ export const availableCharacters: Character[] = [
       "Village teacher with community connections and moderate resources",
     education: "Non formal education",
     age: 45,
-    budget: 15900/101*12*1/1.6, // 120% of base budget
+    budget: 15900/101*12*1/1.6*5, // 120% of base budget
     image: "/character.png",
     backstory:
       "As a respected teacher in his community, Dipak has developed strong local networks that could help during a crisis. His modest income provides average resources for preparation.",
@@ -338,10 +338,11 @@ export const availableCharacters: Character[] = [
       "Maya Thapa works as a housekeeper, handling tasks like cleaning, cooking, and organizing. Her reliability and attention to detail make her a trusted presence in the community.",
     education: "Illiterate",
     age: 51,
-    budget: 11910/101*12*1/1.6, // 90% of base budget
+    budget: 11910/101*12*1/1.6*5, // 90% of base budget
     image: "/character.png",
     backstory:
-    "Maya has spent years as a housekeeper, taking pride in maintaining clean and organized homes. Known for her strong work ethic and warm personality, she finds fulfillment in helping others create comfortable living spaces."];
+    "Maya has spent years as a housekeeper, taking pride in maintaining clean and organized homes. Known for her strong work ethic and warm personality, she finds fulfillment in helping others create comfortable living spaces.",
+  }]
 export const availableLocations: Location[] = [
   {
     id: "sindhupalchok",
