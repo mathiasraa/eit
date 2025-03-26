@@ -177,7 +177,7 @@ export const GAME_EVENTS: Record<GameEventKey, Omit<GameEvent, "key">> = {
 // https://www.skillsewa.com/blog-details/how-much-money-is-needed-to-construct-a-house-in-nepal
 export const buildingTypes = {
   "Traditional Bamboo": {
-    description: "Simple bamboo structure with timber framing",
+    description: "A simple bamboo and timber-framed structure with a lightweight bamboo roof. The ground floor is made of mud, providing a traditional yet moderately resilient design.", 
     foundation_type: "Bamboo/Timber",
     roof_type: "Bamboo/Timber-Light roof",
     ground_floor_type: "Mud",
@@ -186,11 +186,13 @@ export const buildingTypes = {
     has_superstructure_bamboo: 1,
     base_cost: 909, // 1 LAKH NPR
     src: "/building_types/bamboo.png",
-    averageDamageGrade: 2.4688940092165894,
+    averageDamageGrade: 50,
+    damage_description : "This house type gives moderate protection in the case of an earthquake"
+    //2.4688940092165894,
   },
 
   "Basic Stone/Brick": {
-    description: "Stone/brick home with light roof and mud mortar",
+    description: "A stone or brick house built with mud mortar, featuring a lightweight bamboo or timber roof. The floors are made of mud, with upper floors constructed using timber or bamboo with a mud finish.",
     foundation_type: "Mud mortar-Stone/Brick",
     roof_type: "Bamboo/Timber-Light roof",
     ground_floor_type: "Mud",
@@ -198,11 +200,13 @@ export const buildingTypes = {
     has_superstructure_mud_mortar_stone: 1,
     base_cost: 1455, // NPR 100,000 to NPR 500,000
     src: "/building_types/brick_mud.png",
-    averageDamageGrade: 4.005705185903206,
+    averageDamageGrade: 20,
+    damage_description : "This house type gives very little protection in the case of an earthquake"
+    //4.005705185903206,
   },
 
   "Improved Stone/Brick": {
-    description: "Stone/brick home with heavy timber roof for better stability",
+    description:"A stone or brick house with a reinforced heavy timber roof for improved stability. The ground floor is made of sturdy brick or stone, while upper floors use timber or bamboo with a mud finish.", 
     foundation_type: "Mud mortar-Stone/Brick",
     roof_type: "Bamboo/Timber-Heavy roof",
     ground_floor_type: "Brick/Stone",
@@ -210,11 +214,13 @@ export const buildingTypes = {
     has_superstructure_mud_mortar_stone: 1,
     base_cost: 3637,
     src: "/building_types/improved_brick.png",
-    averageDamageGrade: 4.031253052055865,
+    averageDamageGrade: 25,
+    damage_description: "This house type gives litte protection in the case of an earthquake"
+    //4.031253052055865,
   },
 
   "Modern Concrete": {
-    description: "Reinforced concrete structure with modern materials",
+    description:"A reinforced concrete structure built with modern materials, providing both structural support and a durable roof for enhanced earthquake resistance.", 
     foundation_type: "RC",
     roof_type: "RCC/RB/RBC",
     ground_floor_type: "RC",
@@ -222,7 +228,8 @@ export const buildingTypes = {
     has_superstructure_cement_mortar_brick: 1,
     base_cost: 7275,
     src: "/building_types/modern_concrete.png",
-    averageDamageGrade: 1.6486562942008485,
+    averageDamageGrade: 90,
+    damage_description: "This house type gives alot of protection in the case of an earthquake"    //1.6486562942008485,
   },
 };
 
