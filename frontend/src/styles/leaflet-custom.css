@@ -1,0 +1,39 @@
+/* Leaflet specific styles */
+.leaflet-container {
+  border-radius: 0.75rem; /* Rounded corners to match your UI */
+  z-index: 10;
+}
+
+.leaflet-tooltip {
+  background-color: rgba(15, 23, 42, 0.9) !important; /* slate-900 with opacity */
+  color: white !important;
+  border: 1px solid rgba(51, 65, 85, 0.5) !important; /* slate-700 with opacity */
+  border-radius: 0.5rem !important;
+  padding: 0.25rem 0.5rem !important;
+  font-weight: 500 !important;
+  font-size: 0.875rem !important;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2) !important;
+}
+
+.leaflet-tooltip-top:before {
+  border-top-color: rgba(51, 65, 85, 0.5) !important;
+}
+
+/* Remove attribution opacity to make it more readable */
+.leaflet-control-attribution {
+  background-color: rgba(15, 23, 42, 0.8) !important;
+  color: white !important;
+  border-radius: 0.25rem !important;
+  padding: 0.125rem 0.25rem !important;
+}
+
+.leaflet-control-attribution a {
+  color: rgb(96, 165, 250) !important; /* blue-400 */
+}
+
+/* Custom marker style */
+.custom-marker-icon {
+  display: block;
+  border-radius: 50%;
+  cursor: pointer;
+}

@@ -1,8 +1,8 @@
 "use client";
 import { availableLocations } from "@/lib/constants";
-import { cn } from "@/lib/utils";
 import { GameState, Location } from "@/types";
 import Image from "next/image";
+import NepalMap from "../ui/NepalMap";
 
 export function locationSelectPhase(
   gameState: GameState,
@@ -17,56 +17,13 @@ export function locationSelectPhase(
         and potential outcomes.
       </p>
 
-      <div className="relative w-full h-[500px] bg-slate-700 rounded-xl overflow-hidden mb-6">
-        {/* Map of Nepal */}
-        <Image
-          src="/map.jpg"
-          alt="Map of Nepal"
-          fill
-          objectFit="cover"
-          className="opacity-90"
+      <div className="relative w-full mb-6">
+        {/* OpenStreetMap of Nepal */}
+        <NepalMap 
+          locations={availableLocations}
+          selectedLocationId={gameState.location?.id || null}
+          onLocationSelect={handleLocationSelect}
         />
-
-        {/* Location markers */}
-        {availableLocations.map((location) => (
-          <div
-            key={location.id}
-            className={cn(
-              "absolute w-8 h-8 rounded-full cursor-pointer transition-all transform hover:scale-125",
-              gameState.location?.id === location.id
-                ? "bg-blue-500 ring-4 ring-blue-300 z-20"
-                : "bg-red-500 hover:bg-red-400 z-10 opacity-30"
-            )}
-            style={{
-              left: `${location.coordinates.x}%`,
-              top: `${location.coordinates.y}%`,
-              transform: `translate(-50%, -50%) ${
-                gameState.location?.id === location.id ? "scale(1.2)" : ""
-              }`,
-            }}
-            onClick={() => handleLocationSelect(location)}
-            title={location.name}
-          >
-            <span className="sr-only">{location.name}</span>
-          </div>
-        ))}
-
-        {/* Map legend */}
-        <div className="absolute bottom-4 right-4 bg-slate-800/80 p-3 rounded-lg">
-          <div className="text-sm font-bold mb-2">Earthquake Risk Levels</div>
-          <div className="flex items-center mb-1">
-            <div className="w-3 h-3 rounded-full bg-red-300 mr-2"></div>
-            <span className="text-xs">Low Risk</span>
-          </div>
-          <div className="flex items-center mb-1">
-            <div className="w-3 h-3 rounded-full bg-red-500 mr-2"></div>
-            <span className="text-xs">Medium Risk</span>
-          </div>
-          <div className="flex items-center">
-            <div className="w-3 h-3 rounded-full bg-red-700 mr-2"></div>
-            <span className="text-xs">High Risk</span>
-          </div>
-        </div>
       </div>
 
       {/* Location information panel */}
@@ -110,6 +67,30 @@ export function locationSelectPhase(
                   }`}
                   style={{
                     width: `${gameState.location.earthquakeRiskFactor * 100}%`,
+                  }}
+                ></div>
+              </div>
+            </div>
+
+            <div className="mb-3">
+              <div className="flex justify-between mb-1">
+                <span className="text-sm font-medium">Geotechnical Risk</span>
+                <span className="text-sm">
+                  {Math.round(gameState.location.geotechnicalRiskFactor * 100)}
+                  /100
+                </span>
+              </div>
+              <div className="h-2 bg-slate-700 rounded-full">
+                <div
+                  className={`h-full rounded-full ${
+                    gameState.location.geotechnicalRiskFactor > 0.7
+                      ? "bg-red-600"
+                      : gameState.location.geotechnicalRiskFactor > 0.4
+                      ? "bg-orange-500"
+                      : "bg-green-500"
+                  }`}
+                  style={{
+                    width: `${gameState.location.geotechnicalRiskFactor * 100}%`,
                   }}
                 ></div>
               </div>
