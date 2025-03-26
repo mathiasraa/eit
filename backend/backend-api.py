@@ -10,7 +10,7 @@ app = Flask(__name__)
 CORS(app, origins="*")
 
 # Load model and explainer at startup
-bundle = joblib.load("rf_bundle.pkl")
+bundle = joblib.load("lgb_bundle.pkl")
 model = bundle["model"]
 feature_keys = bundle["feature_names"]
 shap_explainer = bundle["shap_explainer"]  # This is a TreeExplainer or similar
@@ -29,23 +29,28 @@ def predict():
         # Create DataFrame in the correct order
         input_df = pd.DataFrame([data], columns=feature_keys)
 
-        # 1) Predict using your multi-output regressor
-        #    This might return something like array([[pred_for_output_0, pred_for_output_1, ...]])
-        prediction = model.predict_proba(input_df)
+        prediction = model.predict(input_df)
+        sv = shap_explainer(input_df).values[0]
+        result = sv[:, 0] - sv[:, 2]
 
-        # 2) Compute SHAP values for each output
-        #    For multi-output regression, shap_values is typically a list of arrays,
-        #    each array: shape (n_samples, n_features)
-        # shap_values = shap_explainer.shap_values(input_df)
+                # Pair up feature_keys and result
+        paired = list(zip(feature_keys, result))
 
-        # 3) Convert SHAP values to a JSON-friendly structure
-        #    We'll build a dictionary keyed by output index
+        # Sort by absolute value of result
+        sorted_paired = sorted(paired, key=lambda x: abs(x[1]), reverse=True)
 
-        # 4) Format the prediction as well. 'prediction' might be array([[x0, x1, ...]]) for one row
-        #    So let's flatten it, e.g., .tolist()[0] is common
+        # Take top 4
+        top_4 = sorted_paired[:4]
+
+        r_dict = {}
+
+        # Display original (non-absolute) values
+        for f, r in top_4:
+            r_dict[f] = round(float(r*25), 2)
+
         result = {
             "prediction": prediction.tolist(),
-            # "feature_importance": all_outputs_importance
+            "feature_importance": r_dict
         }
 
         return jsonify(result), 200
