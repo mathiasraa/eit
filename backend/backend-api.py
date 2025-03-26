@@ -1,27 +1,19 @@
-from flask import Flask, request, jsonify, Response, stream_with_context
+import time
+from flask import Flask, json, request, jsonify, Response, stream_with_context
 import joblib
 import pandas as pd
 import numpy as np
 import shap
-import json
-import time
 from flask_cors import CORS
 
 app = Flask(__name__)
+CORS(app, origins="*")
 
-# Allow CORS for all endpoints
-CORS(
-    app,
-    origins="*",
-)
-
-
-# Load the model bundle once at startup
+# Load model and explainer at startup
 bundle = joblib.load("rf_bundle.pkl")
 model = bundle["model"]
-transformer = bundle["transformer"]
 feature_keys = bundle["feature_names"]
-shap_explainer = bundle["shap_explainer"]
+shap_explainer = bundle["shap_explainer"]  # This is a TreeExplainer or similar
 
 
 @app.route("/api/predict", methods=["POST"])
@@ -29,33 +21,34 @@ def predict():
     try:
         data = request.get_json()
 
-        # Check if all required keys are present
+        # Check for missing keys
         missing_keys = [key for key in feature_keys if key not in data]
         if missing_keys:
             return jsonify({"error": f"Missing keys: {missing_keys}"}), 400
 
-        # Convert the input data into a DataFrame with the proper feature order
+        # Create DataFrame in the correct order
         input_df = pd.DataFrame([data], columns=feature_keys)
 
-        # Predict using the model
-        prediction = model.predict(input_df)[0]
-        prediction_transformed = round(float(prediction) * 50, 1)
+        # 1) Predict using your multi-output regressor
+        #    This might return something like array([[pred_for_output_0, pred_for_output_1, ...]])
+        prediction = model.predict_proba(input_df)
 
-        # Compute SHAP values
-        shap_values = shap_explainer.shap_values(input_df)
-        feature_importance = {
-            key: float(shap_values[0][i]) for i, key in enumerate(feature_keys)
+        # 2) Compute SHAP values for each output
+        #    For multi-output regression, shap_values is typically a list of arrays,
+        #    each array: shape (n_samples, n_features)
+        # shap_values = shap_explainer.shap_values(input_df)
+
+        # 3) Convert SHAP values to a JSON-friendly structure
+        #    We'll build a dictionary keyed by output index
+
+        # 4) Format the prediction as well. 'prediction' might be array([[x0, x1, ...]]) for one row
+        #    So let's flatten it, e.g., .tolist()[0] is common
+        result = {
+            "prediction": prediction.tolist(),
+            # "feature_importance": all_outputs_importance
         }
 
-        return (
-            jsonify(
-                {
-                    "prediction": prediction_transformed,
-                    "feature_importance": feature_importance,
-                }
-            ),
-            200,
-        )
+        return jsonify(result), 200
 
     except Exception as e:
         return jsonify({"error": str(e)}), 500
@@ -97,8 +90,8 @@ def predict_stream():
             time.sleep(1.0)
 
             # Make prediction
-            prediction = model.predict(input_df)[0]
-            prediction_transformed = round(float(prediction) * 50, 1)
+            # prediction = model.predict(input_df)[0]
+            # prediction_transformed = round(float(prediction) * 50, 1)
             yield f"data: {json.dumps({'progress': 70, 'message': 'Evaluating structural integrity...', 'type': 'progress'})}\n\n"
             time.sleep(0.8)
 
@@ -106,21 +99,24 @@ def predict_stream():
             yield f"data: {json.dumps({'progress': 85, 'message': 'Analyzing failure points...', 'type': 'progress'})}\n\n"
             time.sleep(0.7)
 
-            shap_values = shap_explainer.shap_values(input_df)
-            feature_importance = {
-                key: float(shap_values[0][i]) for i, key in enumerate(feature_keys)
-            }
+            # shap_values = shap_explainer.shap_values(input_df)
+            # feature_importance = {
+            #     key: float(shap_values[0][i]) for i, key in enumerate(feature_keys)
+            # }
 
             yield f"data: {json.dumps({'progress': 95, 'message': 'Compiling final damage assessment...', 'type': 'progress'})}\n\n"
             time.sleep(0.6)
+
+            prediction = model.predict_proba(input_df)
 
             # Send final result
             result = {
                 "progress": 100,
                 "message": "Simulation complete",
                 "type": "complete",
-                "prediction": prediction_transformed,
-                "feature_importance": feature_importance,
+                "prediction": prediction.tolist(),
+                # "prediction": prediction_transformed,
+                # "feature_importance": feature_importance,
             }
             yield f"data: {json.dumps(result)}\n\n"
 
