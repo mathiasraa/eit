@@ -47,9 +47,9 @@ export interface Character {
   id: string;
   name: string;
   description: string;
-  occupation: string;
+  education: string;
   age: number;
-  budgetModifier: number;
+  budget: number;
   image: string;
   backstory: string;
 }

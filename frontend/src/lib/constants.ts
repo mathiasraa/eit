@@ -300,9 +300,9 @@ export const availableCharacters: Character[] = [
     id: "rural-farmer",
     name: "Anil Tamang",
     description: "Rural farmer with limited resources but practical knowledge",
-    occupation: "Subsistence Farmer",
-    age: 45,
-    budgetModifier: 0.8, // 80% of base budget
+    education: "Illiterate",
+    age: 48,
+    budget: 11450, // 80% of base budget
     image: "/character.png",
     backstory:
       "Anil has lived his entire life in a small village outside Kathmandu, working the same land as his ancestors. While his financial resources are limited, his practical knowledge of building with local materials could prove valuable.",
@@ -312,9 +312,9 @@ export const availableCharacters: Character[] = [
     name: "Priya Sharma",
     description:
       "Urban professional with higher income but less practical experience",
-    occupation: "Software Engineer",
-    age: 32,
-    budgetModifier: 1.2, // 120% of base budget
+    education: "Bachelor level",
+    age: 38,
+    budget: 24000, // 120% of base budget
     image: "/character.png",
     backstory:
       "Priya moved to Kathmandu after university to work for a growing tech company. Her higher income provides more resources, but her apartment building was constructed quickly during the urban boom with questionable adherence to building codes.",
@@ -324,9 +324,9 @@ export const availableCharacters: Character[] = [
     name: "Dipak Gurung",
     description:
       "Village teacher with community connections and moderate resources",
-    occupation: "Primary School Teacher",
-    age: 38,
-    budgetModifier: 1.0, // 100% of base budget
+    education: "Non formal education",
+    age: 45,
+    budget: 15900, // 120% of base budget
     image: "/character.png",
     backstory:
       "As a respected teacher in his community, Dipak has developed strong local networks that could help during a crisis. His modest income provides average resources for preparation.",
@@ -336,9 +336,9 @@ export const availableCharacters: Character[] = [
     name: "Maya Thapa",
     description:
       "Elderly resident with limited mobility but valuable experience",
-    occupation: "Retired Shopkeeper",
-    age: 72,
-    budgetModifier: 0.9, // 90% of base budget
+    education: "Illiterate",
+    age: 51,
+    budget: 11910, // 90% of base budget
     image: "/character.png",
     backstory:
       "Maya has lived through previous earthquakes and has invaluable historical knowledge. However, her age and limited mobility present additional challenges during emergencies.",
