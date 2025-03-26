@@ -1,9 +1,9 @@
+import "@/styles/custom-animations.css";
 import type { Metadata } from "next";
 import { ViewTransitions } from "next-view-transitions";
-import { Geist, Geist_Mono } from "next/font/google";
-import "@/styles/custom-animations.css";
-import { Inter } from "next/font/google";
+import { Geist, Geist_Mono, Inter } from "next/font/google";
 import "./globals.css";
+import QueryContext from "@/contexts/QueryContext";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -28,14 +28,16 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <ViewTransitions>
-      <html lang="en">
-        <body
-          className={`${geistSans.variable} ${geistMono.variable} font-[family-name:var(--font-geist-sans)] antialiased ${inter.className}`}
-        >
-          {children}
-        </body>
-      </html>
-    </ViewTransitions>
+    <QueryContext>
+      <ViewTransitions>
+        <html lang="en">
+          <body
+            className={`${geistSans.variable} ${geistMono.variable} font-[family-name:var(--font-geist-sans)] antialiased ${inter.className}`}
+          >
+            {children}
+          </body>
+        </html>
+      </ViewTransitions>
+    </QueryContext>
   );
 }

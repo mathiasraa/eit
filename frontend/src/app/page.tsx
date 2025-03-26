@@ -11,7 +11,7 @@ import { introductionPhase } from "../components/pages/introductionPhase";
 import { locationSelectPhase } from "../components/pages/locationSelectPhase";
 import { reflectionPhase } from "../components/pages/reflectionPhase";
 import { resultPhase } from "../components/pages/resultPhase";
-import { simulationPhase } from "../components/pages/simulationPhase";
+import { SimulationPhase } from "../components/pages/simulationPhase";
 
 const gameStateDefaults: GameState = {
   phase: GamePhase.Introduction,
@@ -32,12 +32,7 @@ const GamePage: React.FC = () => {
     if (currGamePhaseIndex < gamePhaseOrder.length - 1) {
       const nextGamePhase = gamePhaseOrder[currGamePhaseIndex + 1];
 
-      // Special case for simulation phase
-      if (nextGamePhase === GamePhase.Simulation) {
-        runSimulation();
-      } else {
-        setGameState((s) => ({ ...s, phase: nextGamePhase }));
-      }
+      setGameState((s) => ({ ...s, phase: nextGamePhase }));
     }
   }
 
@@ -274,6 +269,15 @@ const GameStateView: React.FC<{
     }));
   }
 
+  function handleSimulationSuccess(data: unknown) {
+    console.log("HALLAO", data);
+    onGameStateChange((s) => ({
+      ...s,
+      phase: GamePhase.Results,
+      simulationComplete: true,
+    }));
+  }
+
   switch (gameState.phase) {
     case GamePhase.Introduction:
       return introductionPhase();
@@ -290,7 +294,12 @@ const GameStateView: React.FC<{
       return buildingStructurePhase(gameState, handleBuildingStructureSelect);
 
     case GamePhase.Simulation:
-      return simulationPhase();
+      return (
+        <SimulationPhase
+          gameState={gameState}
+          handleSimulationSuccess={handleSimulationSuccess}
+        />
+      );
 
     case GamePhase.Results:
       return resultPhase(gameState);
