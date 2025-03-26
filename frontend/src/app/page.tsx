@@ -271,7 +271,6 @@ const GameStateView: React.FC<{
     onGameStateChange((s) => ({
       ...s,
       location: location,
-      // Could also modify budget or other factors based on location if desired
     }));
   }
 
