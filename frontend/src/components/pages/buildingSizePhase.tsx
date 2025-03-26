@@ -3,6 +3,7 @@ import { buildingSizeTypes } from "@/lib/constants";
 import { cn } from "@/lib/utils";
 import Image from "next/image";
 import { GameState } from "@/types";
+import { formatCost } from "@/lib/formatCost";
 
 export function buildingSizePhase(
   gameState: GameState,
@@ -22,9 +23,10 @@ export function buildingSizePhase(
       <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
         {Object.entries(buildingSizeTypes).map(([key, value]) => {
           const isSelected = gameState.buildingSize === value;
-          const canAfford =
-            value.base_cost <=
-            gameState.availableFunds + (gameState.buildingSize?.base_cost || 0);
+          const buildingStructure = gameState.buildingStructure;
+          const baseCost = buildingStructure?.base_cost || 0;
+          const cost = baseCost * value.cost_multiplier - baseCost;
+          const canAfford = cost <= gameState.availableFunds + cost;
 
           return (
             <div
@@ -77,7 +79,7 @@ export function buildingSizePhase(
                 />
                 <div className="absolute bottom-0 right-0 bg-slate-900/80 px-3 py-1 m-2 rounded-md">
                   <span className="text-green-400 font-medium">
-                    ${value.base_cost?.toLocaleString()}
+                    {formatCost(cost)}
                   </span>
                 </div>
               </div>

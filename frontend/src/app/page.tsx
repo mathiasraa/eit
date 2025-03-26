@@ -224,12 +224,16 @@ const GameStateView: React.FC<{
     sizeType: (typeof buildingSizeTypes)[keyof typeof buildingSizeTypes]
   ) {
     onGameStateChange((s) => {
-      const costDifference =
-        (sizeType.base_cost || 0) - (s.buildingSize?.base_cost || 0);
+      const costMultiplierDifference =
+        (sizeType.cost_multiplier || 0) -
+        (s.buildingSize?.cost_multiplier || 0);
+      const cost =
+        costMultiplierDifference * (s.buildingStructure?.base_cost || 0);
+
       return {
         ...s,
         buildingSize: sizeType,
-        availableFunds: s.availableFunds - costDifference,
+        availableFunds: s.availableFunds - cost,
       };
     });
   }
@@ -239,8 +243,8 @@ const GameStateView: React.FC<{
   ) {
     onGameStateChange((s) => {
       const costDifference =
-        (structureType.cost_multiplier || 0) -
-        (s.buildingStructure?.cost_multiplier || 0);
+        (structureType.base_cost || 0) - (s.buildingStructure?.base_cost || 0);
+
       return {
         ...s,
         buildingStructure: structureType,

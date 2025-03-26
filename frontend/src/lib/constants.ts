@@ -174,6 +174,7 @@ export const GAME_EVENTS: Record<GameEventKey, Omit<GameEvent, "key">> = {
   },
 };
 
+// https://www.skillsewa.com/blog-details/how-much-money-is-needed-to-construct-a-house-in-nepal
 export const buildingTypes = {
   "Traditional Bamboo": {
     description: "Simple bamboo structure with timber framing",
@@ -183,7 +184,7 @@ export const buildingTypes = {
     other_floor_type: "Not applicable",
     has_superstructure_timber: 1,
     has_superstructure_bamboo: 1,
-    cost_multiplier: 0.6,
+    base_cost: 909, // 1 LAKH NPR
     src: "/building_types/bamboo.png",
   },
 
@@ -194,7 +195,7 @@ export const buildingTypes = {
     ground_floor_type: "Mud",
     other_floor_type: "TImber/Bamboo-Mud",
     has_superstructure_mud_mortar_stone: 1,
-    cost_multiplier: 0.8,
+    base_cost: 1455, // NPR 100,000 to NPR 500,000
     src: "/building_types/brick_mud.png",
   },
 
@@ -205,7 +206,7 @@ export const buildingTypes = {
     ground_floor_type: "Brick/Stone",
     other_floor_type: "TImber/Bamboo-Mud",
     has_superstructure_mud_mortar_stone: 1,
-    cost_multiplier: 1.0,
+    base_cost: 3637,
     src: "/building_types/improved_brick.png",
   },
 
@@ -216,7 +217,7 @@ export const buildingTypes = {
     ground_floor_type: "RC",
     other_floor_type: "RCC/RB/RBC",
     has_superstructure_cement_mortar_brick: 1,
-    cost_multiplier: 1.5,
+    base_cost: 7275,
     src: "/building_types/modern_concrete.png",
   },
 };
@@ -227,7 +228,7 @@ export const buildingSizeTypes = {
     plinth_area_sq_ft: "180 to 407",
     height_ft_pre_eq: "5 to 11",
     count_floors_pre_eq: 1,
-    base_cost: 30000,
+    cost_multiplier: 1.0,
     source_cluster: "Size_Type_2",
     src: "/building_size/small_1_story.png",
   },
@@ -237,7 +238,7 @@ export const buildingSizeTypes = {
     plinth_area_sq_ft: "180 to 407",
     height_ft_pre_eq: "11 to 16",
     count_floors_pre_eq: 2,
-    base_cost: 50000,
+    cost_multiplier: 1.81,
     source_cluster: "Size_Type_1",
     src: "/building_size/medium_2_story.png",
   },
@@ -247,7 +248,7 @@ export const buildingSizeTypes = {
     plinth_area_sq_ft: "407 to 633",
     height_ft_pre_eq: "11 to 16",
     count_floors_pre_eq: 2,
-    base_cost: 70000,
+    cost_multiplier: 3.03,
     source_cluster: "Size_Type_4",
     src: "/building_size/large_2_story.png",
   },
@@ -257,7 +258,7 @@ export const buildingSizeTypes = {
     plinth_area_sq_ft: "180 to 407",
     height_ft_pre_eq: "16 to 22",
     count_floors_pre_eq: 3,
-    base_cost: 90000,
+    cost_multiplier: 2.62,
     source_cluster: "Size_Type_3",
     src: "/building_size/small_3_story.png",
   },
@@ -267,11 +268,12 @@ export const buildingSizeTypes = {
     plinth_area_sq_ft: "407 to 633",
     height_ft_pre_eq: "16 to 22",
     count_floors_pre_eq: 3,
-    base_cost: 110000,
+    cost_multiplier: 4.38,
     source_cluster: "Size_Type_6",
     src: "/building_size/large_3_story.png",
   },
 };
+
 // Example characters based on demographic clusters from Nepal data
 
 export const availableCharacters: Character[] = [

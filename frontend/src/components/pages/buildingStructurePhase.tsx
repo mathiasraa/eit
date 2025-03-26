@@ -4,6 +4,7 @@ import { cn } from "@/lib/utils";
 import Image from "next/image";
 import { GameState } from "@/types";
 import { ProgressBar } from "@/components/ui/ProgressBar";
+import { formatCost } from "@/lib/formatCost";
 
 export function buildingStructurePhase(
   gameState: GameState,
@@ -24,9 +25,8 @@ export function buildingStructurePhase(
         {Object.entries(buildingTypes).map(([key, value]) => {
           const isSelected = gameState.buildingStructure === value;
           const canAfford =
-            (value.cost_multiplier || 0) <=
-            gameState.availableFunds +
-              (gameState.buildingStructure?.cost_multiplier || 0);
+            (value.base_cost || 0) <=
+            gameState.availableFunds + (value.base_cost || 0);
 
           return (
             <div
@@ -74,7 +74,7 @@ export function buildingStructurePhase(
                 />
                 <div className="absolute bottom-0 right-0 bg-slate-900/80 px-3 py-1 m-2 rounded-md">
                   <span className="text-green-400 font-medium">
-                    ${value.cost_multiplier?.toLocaleString()}
+                    {formatCost(value.base_cost)}
                   </span>
                 </div>
               </div>
