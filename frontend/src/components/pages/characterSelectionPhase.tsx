@@ -22,9 +22,7 @@ export function characterSelectionPhase(
       <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
         {availableCharacters.map((character) => {
           const isSelected = gameState.character?.id === character.id;
-          const modifiedBudget = Math.round(
-            character.budget
-          );
+          const modifiedBudget = Math.round(character.budget);
 
           return (
             <div

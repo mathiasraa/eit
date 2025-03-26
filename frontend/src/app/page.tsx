@@ -255,9 +255,7 @@ const GameStateView: React.FC<{
 
   function handleCharacterSelect(character: Character) {
     onGameStateChange((s) => {
-      const modifiedBudget = Math.round(
-        character.budget
-      );
+      const modifiedBudget = Math.round(character.budget);
       return {
         ...s,
         character: character,
