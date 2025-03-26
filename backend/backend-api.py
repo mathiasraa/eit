@@ -5,6 +5,7 @@ import pandas as pd
 import numpy as np
 import shap
 from flask_cors import CORS
+from scipy.special import softmax
 
 app = Flask(__name__)
 CORS(app, origins="*")
@@ -30,7 +31,29 @@ def predict():
         input_df = pd.DataFrame([data], columns=feature_keys)
 
         prediction = model.predict(input_df)
-        sv = shap_explainer(input_df).values[0]
+
+        sv = shap_explainer(input_df)
+
+        base = sv.base_values[0]                 # shape: (3,)
+        shap_vals = sv.values[0]                 # shape: (35, 3)
+
+        n_features, n_classes = shap_vals.shape
+
+        # Initialize
+        logits = base.copy()
+        prev_probs = softmax(logits)
+
+        # Store (feature, class) delta probabilities
+        prob_contributions = np.zeros((n_features, n_classes))
+
+        # Loop through features
+        for i in range(n_features):
+            logits += shap_vals[i]                  # shap_vals[i] is shape: (3,)
+            new_probs = softmax(logits)
+            prob_contributions[i] = new_probs - prev_probs
+            prev_probs = new_probs
+
+        sv = prob_contributions
         result = sv[:, 0] - sv[:, 2]
 
                 # Pair up feature_keys and result
