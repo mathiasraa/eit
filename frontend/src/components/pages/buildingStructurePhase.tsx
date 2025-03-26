@@ -1,10 +1,10 @@
 "use client";
-import { buildingTypes } from "@/lib/constants";
-import { cn } from "@/lib/utils";
-import Image from "next/image";
-import { GameState } from "@/types";
 import { ProgressBar } from "@/components/ui/ProgressBar";
+import { buildingTypes } from "@/lib/constants";
 import { formatCost } from "@/lib/formatCost";
+import { cn } from "@/lib/utils";
+import { GameState } from "@/types";
+import Image from "next/image";
 
 export function buildingStructurePhase(
   gameState: GameState,
@@ -24,9 +24,12 @@ export function buildingStructurePhase(
       <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
         {Object.entries(buildingTypes).map(([key, value]) => {
           const isSelected = gameState.buildingStructure === value;
+          const cost = value.base_cost;
+
           const canAfford =
-            (value.base_cost || 0) <=
-            gameState.availableFunds + (value.base_cost || 0);
+            cost <=
+            gameState.availableFunds +
+              (gameState.buildingStructure?.base_cost || 0);
 
           return (
             <div
@@ -74,7 +77,7 @@ export function buildingStructurePhase(
                 />
                 <div className="absolute bottom-0 right-0 bg-slate-900/80 px-3 py-1 m-2 rounded-md">
                   <span className="text-green-400 font-medium">
-                    {formatCost(value.base_cost)}
+                    {formatCost(cost)}
                   </span>
                 </div>
               </div>

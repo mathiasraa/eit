@@ -4,9 +4,7 @@ import { GameState } from "@/types";
 import { ProgressBar } from "@/components/ui/ProgressBar";
 
 export function resultPhase(gameState: GameState) {
-  const survivalProbability = Math.round(
-    100 - (gameState.results?.prediction || 0)
-  );
+  const survivalProbability = Math.round(gameState.survivalProbability || 0);
   return (
     <div className="bg-slate-800 p-8 rounded-xl shadow-lg">
       <h2 className="text-2xl font-bold mb-4">Earthquake Simulation Results</h2>

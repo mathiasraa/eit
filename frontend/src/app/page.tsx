@@ -3,6 +3,7 @@
 import { Button } from "@/components/ui/button";
 import { buildingSizeTypes, buildingTypes } from "@/lib/constants";
 import { Character, GamePhase, GameState, Location } from "@/types";
+import type { ModelResult } from "@/types/api";
 import { useState, type Dispatch, type SetStateAction } from "react";
 import { buildingSizePhase } from "../components/pages/buildingSizePhase";
 import { buildingStructurePhase } from "../components/pages/buildingStructurePhase";
@@ -12,7 +13,6 @@ import { locationSelectPhase } from "../components/pages/locationSelectPhase";
 import { reflectionPhase } from "../components/pages/reflectionPhase";
 import { resultPhase } from "../components/pages/resultPhase";
 import { SimulationPhase } from "../components/pages/simulationPhase";
-import type { ModelResult } from "@/types/api";
 
 const gameStateDefaults: GameState = {
   phase: GamePhase.Introduction,
@@ -50,72 +50,6 @@ const GamePage: React.FC = () => {
   function resetGame() {
     setGameState(gameStateDefaults);
   }
-
-  // function runSimulation() {
-  //   const earthquakeIntensity = Math.random() * 3 + 6.5; // Random intensity between 6.5 and 9.5
-  //   const survivalProbability = Math.random(); // Random survival probability between 0 and 1
-
-  //   // Generate lessons based on decisions
-  //   const lessons = generateLessons(
-  //     gameState,
-  //     survivalProbability,
-  //     earthquakeIntensity
-  //   );
-
-  //   setGameState((s) => ({
-  //     ...s,
-  //     phase: GamePhase.Results,
-  //     earthquakeIntensity,
-  //     survivalProbability,
-  //     simulationComplete: true,
-  //     lessons,
-  //   }));
-  // }
-
-  // function generateLessons(
-  //   state: GameState,
-  //   survivalProbability: number,
-  //   intensity: number
-  // ): string[] {
-  //   const lessons: string[] = [];
-
-  //   // Building structure lessons
-  //   if (!state.buildingStructure || 0 < 50) {
-  //     lessons.push(
-  //       "Building structural integrity is critical during severe earthquakes. Reinforced concrete and steel frames significantly increase survival rates in Nepal."
-  //     );
-  //   }
-
-  //   // Intensity-specific lessons
-  //   if (intensity > 7.5) {
-  //     lessons.push(
-  //       `At magnitude ${intensity.toFixed(
-  //         1
-  //       )}, this earthquake was comparable to the 7.8 magnitude Nepal earthquake, which caused catastrophic damage to unreinforced structures.`
-  //     );
-  //   }
-
-  //   // Budget lessons
-  //   if (state.availableFunds > state.totalBudget * 0.3) {
-  //     lessons.push(
-  //       "Underspending on preparedness can be costly. Data from Nepal shows that each dollar spent on preparedness saved approximately seven dollars in recovery costs."
-  //     );
-  //   }
-
-  //   if (state.location) {
-  //     if (state.location.earthquakeRiskFactor > 0.7) {
-  //       lessons.push(
-  //         `Living in ${state.location.name}, a high-risk area, meant your building experienced stronger shaking than many other regions of Nepal. Data from 2015 showed that buildings in this region needed additional reinforcement to withstand such forces.`
-  //       );
-  //     } else if (state.location.earthquakeRiskFactor < 0.4) {
-  //       lessons.push(
-  //         `Though ${state.location.name} experienced less intense shaking than other regions, the 2015 earthquake showed that distance from urban centers created challenges for emergency response and aid distribution.`
-  //       );
-  //     }
-  //   }
-
-  //   return lessons;
-  // }
 
   const canProceed = () => {
     switch (gameState.phase) {
@@ -220,11 +154,12 @@ const GameStateView: React.FC<{
     sizeType: (typeof buildingSizeTypes)[keyof typeof buildingSizeTypes]
   ) {
     onGameStateChange((s) => {
-      const costMultiplierDifference =
-        (sizeType.cost_multiplier || 0) -
-        (s.buildingSize?.cost_multiplier || 0);
+      const buildingStructure = gameState.buildingStructure;
+      const baseCost = buildingStructure?.base_cost || 0;
       const cost =
-        costMultiplierDifference * (s.buildingStructure?.base_cost || 0);
+        baseCost * (sizeType.cost_multiplier || 1) -
+        baseCost -
+        (baseCost * (s.buildingSize?.cost_multiplier || 1) - baseCost);
 
       return {
         ...s,
@@ -269,12 +204,69 @@ const GameStateView: React.FC<{
   }
 
   function handleSimulationSuccess(data: ModelResult) {
+    const earthquakeIntensity = 9.5;
+    const survivalProbability = Math.round(100 - data.prediction);
+
+    const lessons = generateLessons(
+      gameState,
+      survivalProbability,
+      earthquakeIntensity
+    );
+
     onGameStateChange((s) => ({
       ...s,
       phase: GamePhase.Results,
+      survivalProbability,
+      earthquakeIntensity,
       simulationComplete: true,
       results: data,
+      lessons,
     }));
+  }
+
+  function generateLessons(
+    state: GameState,
+    survivalProbability: number,
+    intensity: number
+  ): string[] {
+    const lessons: string[] = [];
+
+    // Building structure lessons
+    if (!state.buildingStructure || 0 < 50) {
+      lessons.push(
+        "Building structural integrity is critical during severe earthquakes. Reinforced concrete and steel frames significantly increase survival rates in Nepal."
+      );
+    }
+
+    // Intensity-specific lessons
+    if (intensity > 7.5) {
+      lessons.push(
+        `At magnitude ${intensity.toFixed(
+          1
+        )}, this earthquake was comparable to the 7.8 magnitude Nepal earthquake, which caused catastrophic damage to unreinforced structures.`
+      );
+    }
+
+    // Budget lessons
+    if (state.availableFunds > state.totalBudget * 0.3) {
+      lessons.push(
+        "Underspending on preparedness can be costly. Data from Nepal shows that each dollar spent on preparedness saved approximately seven dollars in recovery costs."
+      );
+    }
+
+    if (state.location) {
+      if (state.location.earthquakeRiskFactor > 0.7) {
+        lessons.push(
+          `Living in ${state.location.name}, a high-risk area, meant your building experienced stronger shaking than many other regions of Nepal. Data from 2015 showed that buildings in this region needed additional reinforcement to withstand such forces.`
+        );
+      } else if (state.location.earthquakeRiskFactor < 0.4) {
+        lessons.push(
+          `Though ${state.location.name} experienced less intense shaking than other regions, the 2015 earthquake showed that distance from urban centers created challenges for emergency response and aid distribution.`
+        );
+      }
+    }
+
+    return lessons;
   }
 
   switch (gameState.phase) {

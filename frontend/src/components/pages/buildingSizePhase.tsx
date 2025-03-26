@@ -26,7 +26,10 @@ export function buildingSizePhase(
           const buildingStructure = gameState.buildingStructure;
           const baseCost = buildingStructure?.base_cost || 0;
           const cost = baseCost * value.cost_multiplier - baseCost;
-          const canAfford = cost <= gameState.availableFunds + cost;
+          const canAfford =
+            cost <=
+            gameState.availableFunds +
+              (gameState.buildingSize?.cost_multiplier || 0) * baseCost;
 
           return (
             <div
