@@ -50,7 +50,7 @@ export function buildingSizePhase(
                 <div className="grid grid-cols-3 gap-2">
                   <div className="bg-slate-700 rounded-lg p-3 text-sm">
                     <span className="font-medium block mb-1">Area:</span>
-                    {value.plinth_area_sq_ft} m²
+                    {formaPlinthAreaToM2(value.plinth_area_sq_ft)}
                   </div>
                   <div className="bg-slate-700 rounded-lg p-3 text-sm">
                     <span className="font-medium block mb-1">Floors:</span>
@@ -87,4 +87,16 @@ export function buildingSizePhase(
       </div>
     </div>
   );
+}
+
+function sqFeetToSqM2(sqFeet: number): number {
+  return Math.round(sqFeet * 0.092903);
+}
+
+function formaPlinthAreaToM2(plinthArea: string): string {
+  const areaSplit = plinthArea.split(" ");
+  const minArea = parseInt(areaSplit[0]);
+  const maxArea = parseInt(areaSplit[areaSplit.length - 1]);
+
+  return `${sqFeetToSqM2(minArea)} - ${sqFeetToSqM2(maxArea)} m²`;
 }

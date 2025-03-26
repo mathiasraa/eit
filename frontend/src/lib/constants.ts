@@ -236,8 +236,8 @@ export const buildingSizeTypes = {
     source_cluster: "Size_Type_2",
     src: "/building_size/small_1_story.png",
     insight:
-      "Similar structures in Nepal experienced moderate damage in the 2015 earthquake.",
-    capacity: "5-10 people",
+      "During the 2015 Gorkha earthquake, single-story buildings with smaller footprints generally experienced less severe damage compared to multi-story structures. Their low height and simple design contributed to better overall performance, though corner separation remained a common issue.",
+    capacity: "3-5 people",
   },
 
   "Medium Two-Story": {
@@ -249,8 +249,8 @@ export const buildingSizeTypes = {
     source_cluster: "Size_Type_1",
     src: "/building_size/medium_2_story.png",
     insight:
-      "Similar structures in Nepal experienced moderate damage in the 2015 earthquake.",
-    capacity: "10-15 people",
+      "Two-story buildings of moderate size showed mixed performance in the 2015 earthquake. Their increased height compared to single-story structures made them more susceptible to lateral forces. However, those designed with proper vertical continuity and limited openings performed relatively well.",
+    capacity: "5-8 people",
   },
 
   "Large Two-Story": {
@@ -262,8 +262,8 @@ export const buildingSizeTypes = {
     source_cluster: "Size_Type_4",
     src: "/building_size/large_2_story.png",
     insight:
-      "Similar structures in Nepal experienced moderate damage in the 2015 earthquake.",
-    capacity: "15-20 people",
+      "Large two-story buildings with substantial floor areas provided better evacuation options during the 2015 earthquake. Their wider base and lower height-to-width ratio contributed to improved stability compared to taller structures with similar floor areas.",
+    capacity: "8-12 people",
   },
 
   "Tall Three-Story": {
@@ -275,8 +275,8 @@ export const buildingSizeTypes = {
     source_cluster: "Size_Type_3",
     src: "/building_size/small_3_story.png",
     insight:
-      "Similar structures in Nepal experienced moderate damage in the 2015 earthquake.",
-    capacity: "10-15 people",
+      "Three-story buildings with smaller footprints were among the more vulnerable structures during the 2015 earthquake. Their height-to-width ratio made them susceptible to overturning forces and soft-story failures, especially in urban areas where they are common.",
+    capacity: "7-10 people",
   },
 
   "Large Three-Story": {
@@ -288,8 +288,8 @@ export const buildingSizeTypes = {
     source_cluster: "Size_Type_6",
     src: "/building_size/large_3_story.png",
     insight:
-      "Similar structures in Nepal experienced moderate damage in the 2015 earthquake.",
-    capacity: "15-20 people",
+      "These larger three-story structures experienced varied outcomes in the 2015 earthquake. While their substantial floor area provided more options for internal bracing, the combination of height and mass made them vulnerable to significant lateral forces. Post-earthquake reconstruction has emphasized improved structural design for buildings of this size.",
+    capacity: "10-15 people",
   },
 };
 
