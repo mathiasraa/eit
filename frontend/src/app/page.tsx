@@ -2,18 +2,16 @@
 
 import { Button } from "@/components/ui/button";
 import { buildingSizeTypes, buildingTypes } from "@/lib/constants";
+import { Character, GamePhase, GameState, Location } from "@/types";
 import { useState, type Dispatch, type SetStateAction } from "react";
-import { introductionPhase } from "../components/pages/introductionPhase";
-import { characterSelectionPhase } from "../components/pages/characterSelectionPhase";
-import { locationSelectPhase } from "../components/pages/locationSelectPhase";
 import { buildingSizePhase } from "../components/pages/buildingSizePhase";
+import { buildingStructurePhase } from "../components/pages/buildingStructurePhase";
+import { characterSelectionPhase } from "../components/pages/characterSelectionPhase";
+import { introductionPhase } from "../components/pages/introductionPhase";
+import { locationSelectPhase } from "../components/pages/locationSelectPhase";
 import { reflectionPhase } from "../components/pages/reflectionPhase";
 import { resultPhase } from "../components/pages/resultPhase";
-import { buildingStructurePhase } from "../components/pages/buildingStructurePhase";
 import { simulationPhase } from "../components/pages/simulationPhase";
-import { Character } from "../types/Character";
-import { Location } from "../types/Location";
-import { GamePhase, GameState } from "../types/GamePhase";
 
 const gameStateDefaults: GameState = {
   phase: GamePhase.Introduction,
@@ -275,42 +273,26 @@ const GameStateView: React.FC<{
 
   switch (gameState.phase) {
     case GamePhase.Introduction:
-      return (
-        introductionPhase()
-      );
+      return introductionPhase();
     case GamePhase.CharacterSelection:
-      return (
-        characterSelectionPhase(gameState, handleCharacterSelect)
-      );
+      return characterSelectionPhase(gameState, handleCharacterSelect);
 
     case GamePhase.LocationSelection:
-      return (
-        locationSelectPhase(gameState, handleLocationSelect)
-      );
+      return locationSelectPhase(gameState, handleLocationSelect);
 
     case GamePhase.BuildingSize:
-      return (
-        buildingSizePhase(gameState, handleBuildingSizeSelect)
-      );
+      return buildingSizePhase(gameState, handleBuildingSizeSelect);
 
     case GamePhase.BuildingStructure:
-      return (
-        buildingStructurePhase(gameState, handleBuildingStructureSelect)
-      );
+      return buildingStructurePhase(gameState, handleBuildingStructureSelect);
 
     case GamePhase.Simulation:
-      return (
-        simulationPhase()
-      );
+      return simulationPhase();
 
     case GamePhase.Results:
-      return (
-        resultPhase(gameState)
-      );
+      return resultPhase(gameState);
     case GamePhase.Reflection:
-      return (
-        reflectionPhase(gameState)
-      );
+      return reflectionPhase(gameState);
   }
 };
 

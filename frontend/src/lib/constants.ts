@@ -4,8 +4,7 @@ import {
   type GameEvent,
   type SuperstructureType,
 } from "@/lib/types";
-import { Character } from "@/types/Character";
-import { Location } from "@/types/Location";
+import type { Character, Location } from "@/types";
 
 export const INITIAL_BUDGET = 10815028; // 10,815,028 NPR OR 863 108,68 NOK
 
@@ -284,48 +283,58 @@ export const availableCharacters: Character[] = [
     age: 45,
     budgetModifier: 0.8, // 80% of base budget
     image: "/character.png",
-    backstory: "Anil has lived his entire life in a small village outside Kathmandu, working the same land as his ancestors. While his financial resources are limited, his practical knowledge of building with local materials could prove valuable.",
+    backstory:
+      "Anil has lived his entire life in a small village outside Kathmandu, working the same land as his ancestors. While his financial resources are limited, his practical knowledge of building with local materials could prove valuable.",
   },
   {
     id: "urban-professional",
     name: "Priya Sharma",
-    description: "Urban professional with higher income but less practical experience",
+    description:
+      "Urban professional with higher income but less practical experience",
     occupation: "Software Engineer",
     age: 32,
     budgetModifier: 1.2, // 120% of base budget
     image: "/character.png",
-    backstory: "Priya moved to Kathmandu after university to work for a growing tech company. Her higher income provides more resources, but her apartment building was constructed quickly during the urban boom with questionable adherence to building codes.",
+    backstory:
+      "Priya moved to Kathmandu after university to work for a growing tech company. Her higher income provides more resources, but her apartment building was constructed quickly during the urban boom with questionable adherence to building codes.",
   },
   {
     id: "village-teacher",
     name: "Dipak Gurung",
-    description: "Village teacher with community connections and moderate resources",
+    description:
+      "Village teacher with community connections and moderate resources",
     occupation: "Primary School Teacher",
     age: 38,
     budgetModifier: 1.0, // 100% of base budget
     image: "/character.png",
-    backstory: "As a respected teacher in his community, Dipak has developed strong local networks that could help during a crisis. His modest income provides average resources for preparation.",
+    backstory:
+      "As a respected teacher in his community, Dipak has developed strong local networks that could help during a crisis. His modest income provides average resources for preparation.",
   },
   {
     id: "elderly-resident",
     name: "Maya Thapa",
-    description: "Elderly resident with limited mobility but valuable experience",
+    description:
+      "Elderly resident with limited mobility but valuable experience",
     occupation: "Retired Shopkeeper",
     age: 72,
     budgetModifier: 0.9, // 90% of base budget
     image: "/character.png",
-    backstory: "Maya has lived through previous earthquakes and has invaluable historical knowledge. However, her age and limited mobility present additional challenges during emergencies.",
+    backstory:
+      "Maya has lived through previous earthquakes and has invaluable historical knowledge. However, her age and limited mobility present additional challenges during emergencies.",
   },
-];export const availableLocations: Location[] = [
+];
+export const availableLocations: Location[] = [
   {
     id: "kathmandu",
     name: "Kathmandu",
     region: "Central Nepal",
-    description: "The densely populated capital city with many older buildings and infrastructure",
+    description:
+      "The densely populated capital city with many older buildings and infrastructure",
     earthquakeRiskFactor: 0.7, // High risk
     coordinates: { x: 60, y: 68 },
     image: "/locations/kathmandu.png",
-    historicalContext: "Kathmandu experienced severe damage during the 2015 earthquake, with many historic buildings collapsing. Its high population density and older infrastructure contributed to higher casualty rates.",
+    historicalContext:
+      "Kathmandu experienced severe damage during the 2015 earthquake, with many historic buildings collapsing. Its high population density and older infrastructure contributed to higher casualty rates.",
   },
   {
     id: "gorkha",
@@ -335,7 +344,8 @@ export const availableCharacters: Character[] = [
     earthquakeRiskFactor: 0.9, // Very high risk
     coordinates: { x: 53, y: 59 },
     image: "/locations/gorkha.png",
-    historicalContext: "As the epicenter of the 2015 earthquake, Gorkha experienced catastrophic damage. Many remote villages in this district were completely cut off from aid for days.",
+    historicalContext:
+      "As the epicenter of the 2015 earthquake, Gorkha experienced catastrophic damage. Many remote villages in this district were completely cut off from aid for days.",
   },
   {
     id: "mustang",
@@ -345,7 +355,7 @@ export const availableCharacters: Character[] = [
     earthquakeRiskFactor: 0.4, // Medium-low risk
     coordinates: { x: 46, y: 32 },
     image: "/locations/mustang.png",
-    historicalContext: "Mustang's traditional building techniques and less dense population resulted in fewer casualties, though its remoteness presented challenges for receiving aid.",
+    historicalContext:
+      "Mustang's traditional building techniques and less dense population resulted in fewer casualties, though its remoteness presented challenges for receiving aid.",
   },
 ];
-

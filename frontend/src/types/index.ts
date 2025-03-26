@@ -1,19 +1,26 @@
-"use client";
-
 import { buildingSizeTypes, buildingTypes } from "@/lib/constants";
-import { Character } from "./Character";
-import { Location } from "./Location";
+
+export type Location = {
+  id: string;
+  name: string;
+  region: string;
+  description: string;
+  earthquakeRiskFactor: number; // 0-1 where higher means more risk
+  coordinates: { x: number; y: number }; // For positioning on the map
+  image: string;
+  historicalContext: string;
+};
 
 export enum GamePhase {
   Introduction = "Introduction",
-  CharacterSelection = "CharacterSelection",// New phase
+  CharacterSelection = "CharacterSelection",
   LocationSelection = "LocationSelection",
   BuildingSize = "BuildingSize",
   BuildingStructure = "BuildingStructure",
   Simulation = "Simulation",
   Results = "Results",
-  Reflection = "Reflection"
-}// Update GameState to include location
+  Reflection = "Reflection",
+}
 
 export type GameState = {
   phase: GamePhase;
@@ -21,7 +28,7 @@ export type GameState = {
   totalBudget: number;
   availableFunds: number;
   character?: Character;
-  location?: Location; // Selected location
+  location?: Location;
   buildingSize?: (typeof buildingSizeTypes)[keyof typeof buildingSizeTypes];
   buildingStructure?: (typeof buildingTypes)[keyof typeof buildingTypes];
   earthquakeIntensity?: number;
@@ -30,3 +37,13 @@ export type GameState = {
   lessons: string[];
 };
 
+export type Character = {
+  id: string;
+  name: string;
+  description: string;
+  occupation: string;
+  age: number;
+  budgetModifier: number;
+  image: string;
+  backstory: string;
+};
