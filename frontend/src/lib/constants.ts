@@ -346,37 +346,60 @@ export const availableCharacters: Character[] = [
 ];
 export const availableLocations: Location[] = [
   {
-    id: "kathmandu",
-    name: "Kathmandu",
+    id: "sindhupalchok",
+    name: "Sindhupalchok",
     region: "Central Nepal",
     description:
-      "The densely populated capital city with many older buildings and infrastructure",
-    earthquakeRiskFactor: 0.7, // High risk
-    coordinates: { x: 60, y: 68 },
-    image: "/locations/kathmandu.png",
+      "A mountainous district severely affected by the 2015 earthquake with high seismic activity",
+    earthquakeRiskFactor: 0.96, // Very high earthquake risk
+    geotechnicalRiskFactor: 0.23, // Moderate geotechnical risk
+    coordinates: { 
+      lat: 27.9512, lng: 85.6846
+    },
+    image: "/locations/kathmandu.png", // Using existing image as placeholder
     historicalContext:
-      "Kathmandu experienced severe damage during the 2015 earthquake, with many historic buildings collapsing. Its high population density and older infrastructure contributed to higher casualty rates.",
+      "Sindhupalchok was one of the worst-affected districts in the 2015 earthquake, with nearly 2,000 casualties and widespread destruction of buildings and infrastructure. Its mountainous terrain contributed to numerous landslides triggered by the quake.",
   },
   {
     id: "gorkha",
     name: "Gorkha",
-    region: "Epicenter Region",
+    region: "Central-Western Nepal",
     description: "Rural district that was the epicenter of the 2015 earthquake",
-    earthquakeRiskFactor: 0.9, // Very high risk
-    coordinates: { x: 53, y: 59 },
+    earthquakeRiskFactor: 0.60, // High earthquake risk
+    geotechnicalRiskFactor: 0.13, // Low-moderate geotechnical risk
+    coordinates: { 
+      lat: 28.0000, lng: 84.6333
+    },
     image: "/locations/gorkha.png",
     historicalContext:
-      "As the epicenter of the 2015 earthquake, Gorkha experienced catastrophic damage. Many remote villages in this district were completely cut off from aid for days.",
+      "As the epicenter of the 2015 earthquake, Gorkha experienced catastrophic damage. Many remote villages in this district were completely cut off from aid for days, though its relatively stable ground conditions limited additional geotechnical hazards.",
   },
   {
-    id: "mustang",
-    name: "Mustang",
-    region: "Northern Nepal",
-    description: "Remote mountainous region with traditional building methods",
-    earthquakeRiskFactor: 0.4, // Medium-low risk
-    coordinates: { x: 46, y: 32 },
-    image: "/locations/mustang.png",
+    id: "makwanpur",
+    name: "Makwanpur",
+    region: "Central Nepal",
+    description: "A diverse district with both hilly terrain and flat land areas with lower seismic risk",
+    earthquakeRiskFactor: 0.24, // Low earthquake risk
+    geotechnicalRiskFactor: 0.12, // Low geotechnical risk
+    coordinates: { 
+      lat: 27.5545, lng: 85.0233
+    },
+    image: "/locations/mustang.png", // Using existing image as placeholder
     historicalContext:
-      "Mustang's traditional building techniques and less dense population resulted in fewer casualties, though its remoteness presented challenges for receiving aid.",
+      "Makwanpur experienced relatively less damage during the 2015 earthquake compared to northern districts. Its varied terrain includes both susceptible hill slopes and more stable flat areas, providing a diverse range of building conditions.",
+  },
+  {
+    id: "sindhuli",
+    name: "Sindhuli",
+    region: "Central-Eastern Nepal",
+    description: "A hilly district with moderate earthquake risk but higher landslide potential",
+    earthquakeRiskFactor: 0.30, // Moderate earthquake risk
+    geotechnicalRiskFactor: 0.20, // Moderate geotechnical risk
+    coordinates: { 
+      lat: 27.2569, lng: 85.9713
+    },
+    image: "/locations/gorkha.png", // Using existing image as placeholder
+    historicalContext:
+      "Sindhuli district experienced moderate damage during the 2015 earthquake, but its hilly terrain makes it susceptible to rainfall-induced landslides which can be triggered by even moderate seismic activity, increasing the overall risk to buildings and infrastructure.",
   },
 ];
