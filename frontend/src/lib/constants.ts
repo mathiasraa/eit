@@ -204,7 +204,7 @@ export const buildingTypes = {
     foundation_type: "Mud mortar-Stone/Brick",
     roof_type: "Bamboo/Timber-Heavy roof",
     ground_floor_type: "Brick/Stone",
-    other_floor_type: "Timber/Bamboo-Mud",
+    other_floor_type: "TImber/Bamboo-Mud",
     has_superstructure_mud_mortar_stone: 1,
     base_cost: 3637,
     src: "/building_types/improved_brick.png",
