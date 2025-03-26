@@ -100,23 +100,6 @@ export default function NepalMap({
           </Marker>
         ))}
       </MapContainer>
-
-      {/* Map legend */}
-      <div className="absolute bottom-4 right-4 bg-slate-800/80 p-3 rounded-lg z-[1000]">
-        <div className="text-sm font-bold mb-2">Earthquake Risk Levels</div>
-        <div className="flex items-center mb-1">
-          <div className="w-3 h-3 rounded-full bg-red-300 mr-2"></div>
-          <span className="text-xs">Low Risk</span>
-        </div>
-        <div className="flex items-center mb-1">
-          <div className="w-3 h-3 rounded-full bg-red-500 mr-2"></div>
-          <span className="text-xs">Medium Risk</span>
-        </div>
-        <div className="flex items-center">
-          <div className="w-3 h-3 rounded-full bg-red-700 mr-2"></div>
-          <span className="text-xs">High Risk</span>
-        </div>
-      </div>
     </div>
   );
 }
