@@ -1,4 +1,5 @@
 import { buildingSizeTypes, buildingTypes } from "@/lib/constants";
+import type { ModelResult } from "@/types/api";
 
 export interface LocationCoordinates {
   lat: number; // Latitude
@@ -41,6 +42,7 @@ export type GameState = {
   survivalProbability?: number;
   simulationComplete: boolean;
   lessons: string[];
+  results?: ModelResult;
 };
 
 export interface Character {

@@ -4,6 +4,9 @@ import { GameState } from "@/types";
 import { ProgressBar } from "@/components/ui/ProgressBar";
 
 export function resultPhase(gameState: GameState) {
+  const survivalProbability = Math.round(
+    100 - (gameState.results?.prediction || 0)
+  );
   return (
     <div className="bg-slate-800 p-8 rounded-xl shadow-lg">
       <h2 className="text-2xl font-bold mb-4">Earthquake Simulation Results</h2>
@@ -81,21 +84,19 @@ export function resultPhase(gameState: GameState) {
             <div className="mb-6">
               <div className="flex justify-between items-center mb-1">
                 <span className="text-md">Survival Probability</span>
-                <span className="font-bold">
-                  {Math.round((gameState.survivalProbability || 0) * 100)}%
-                </span>
+                <span className="font-bold">{survivalProbability}%</span>
               </div>
               <div className="h-4 bg-slate-800 rounded-full overflow-hidden">
                 <div
                   className={`h-full ${
-                    (gameState.survivalProbability || 0) > 0.7
+                    (survivalProbability / 100 || 0) > 0.7
                       ? "bg-green-500"
-                      : (gameState.survivalProbability || 0) > 0.4
+                      : (survivalProbability / 100 || 0) > 0.4
                       ? "bg-yellow-500"
                       : "bg-red-500"
                   }`}
                   style={{
-                    width: `${(gameState.survivalProbability || 0) * 100}%`,
+                    width: `${(survivalProbability / 100 || 0) * 100}%`,
                   }}
                 ></div>
               </div>

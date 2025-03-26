@@ -13,7 +13,7 @@ export function SimulationPhase({
   handleSimulationSuccess,
 }: {
   gameState: GameState;
-  handleSimulationSuccess: (data: unknown) => void;
+  handleSimulationSuccess: (data: ModelResult) => void;
 }) {
   const { mutate, isPending } = useMutation<
     ModelResult,

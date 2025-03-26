@@ -52,12 +52,7 @@ export type ModelResult = {
     ground_floor_type_Other: number;
     ground_floor_type_RC: number;
     ground_floor_type_Timber: number;
-    has_geotechnical_risk_fault_crack: number;
-    has_geotechnical_risk_flood: number;
-    has_geotechnical_risk_land_settlement: number;
-    has_geotechnical_risk_liquefaction: number;
-    has_geotechnical_risk_other: number;
-    has_geotechnical_risk_rock_fall: number;
+    has_geotechnical_risk: number;
     has_superstructure_adobe_mud: number;
     has_superstructure_bamboo: number;
     has_superstructure_cement_mortar_brick: number;

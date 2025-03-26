@@ -12,6 +12,7 @@ import { locationSelectPhase } from "../components/pages/locationSelectPhase";
 import { reflectionPhase } from "../components/pages/reflectionPhase";
 import { resultPhase } from "../components/pages/resultPhase";
 import { SimulationPhase } from "../components/pages/simulationPhase";
+import type { ModelResult } from "@/types/api";
 
 const gameStateDefaults: GameState = {
   phase: GamePhase.Introduction,
@@ -267,12 +268,12 @@ const GameStateView: React.FC<{
     }));
   }
 
-  function handleSimulationSuccess(data: unknown) {
-    console.log("HALLAO", data);
+  function handleSimulationSuccess(data: ModelResult) {
     onGameStateChange((s) => ({
       ...s,
       phase: GamePhase.Results,
       simulationComplete: true,
+      results: data,
     }));
   }
 
