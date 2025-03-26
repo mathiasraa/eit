@@ -204,14 +204,10 @@ const GameStateView: React.FC<{
   }
 
   function handleSimulationSuccess(data: ModelResult) {
-    const earthquakeIntensity = 9.5;
+    const earthquakeIntensity = 7.8;
     const survivalProbability = Math.round(100 - data.prediction);
 
-    const lessons = generateLessons(
-      gameState,
-      survivalProbability,
-      earthquakeIntensity
-    );
+    const lessons = generateLessons(gameState);
 
     onGameStateChange((s) => ({
       ...s,
@@ -224,26 +220,13 @@ const GameStateView: React.FC<{
     }));
   }
 
-  function generateLessons(
-    state: GameState,
-    survivalProbability: number,
-    intensity: number
-  ): string[] {
+  function generateLessons(state: GameState): string[] {
     const lessons: string[] = [];
 
     // Building structure lessons
     if (!state.buildingStructure || 0 < 50) {
       lessons.push(
         "Building structural integrity is critical during severe earthquakes. Reinforced concrete and steel frames significantly increase survival rates in Nepal."
-      );
-    }
-
-    // Intensity-specific lessons
-    if (intensity > 7.5) {
-      lessons.push(
-        `At magnitude ${intensity.toFixed(
-          1
-        )}, this earthquake was comparable to the 7.8 magnitude Nepal earthquake, which caused catastrophic damage to unreinforced structures.`
       );
     }
 
