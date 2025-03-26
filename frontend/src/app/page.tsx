@@ -50,71 +50,71 @@ const GamePage: React.FC = () => {
     setGameState(gameStateDefaults);
   }
 
-  function runSimulation() {
-    const earthquakeIntensity = Math.random() * 3 + 6.5; // Random intensity between 6.5 and 9.5
-    const survivalProbability = Math.random(); // Random survival probability between 0 and 1
+  // function runSimulation() {
+  //   const earthquakeIntensity = Math.random() * 3 + 6.5; // Random intensity between 6.5 and 9.5
+  //   const survivalProbability = Math.random(); // Random survival probability between 0 and 1
 
-    // Generate lessons based on decisions
-    const lessons = generateLessons(
-      gameState,
-      survivalProbability,
-      earthquakeIntensity
-    );
+  //   // Generate lessons based on decisions
+  //   const lessons = generateLessons(
+  //     gameState,
+  //     survivalProbability,
+  //     earthquakeIntensity
+  //   );
 
-    setGameState((s) => ({
-      ...s,
-      phase: GamePhase.Results,
-      earthquakeIntensity,
-      survivalProbability,
-      simulationComplete: true,
-      lessons,
-    }));
-  }
+  //   setGameState((s) => ({
+  //     ...s,
+  //     phase: GamePhase.Results,
+  //     earthquakeIntensity,
+  //     survivalProbability,
+  //     simulationComplete: true,
+  //     lessons,
+  //   }));
+  // }
 
-  function generateLessons(
-    state: GameState,
-    survivalProbability: number,
-    intensity: number
-  ): string[] {
-    const lessons: string[] = [];
+  // function generateLessons(
+  //   state: GameState,
+  //   survivalProbability: number,
+  //   intensity: number
+  // ): string[] {
+  //   const lessons: string[] = [];
 
-    // Building structure lessons
-    if (!state.buildingStructure || 0 < 50) {
-      lessons.push(
-        "Building structural integrity is critical during severe earthquakes. Reinforced concrete and steel frames significantly increase survival rates in Nepal."
-      );
-    }
+  //   // Building structure lessons
+  //   if (!state.buildingStructure || 0 < 50) {
+  //     lessons.push(
+  //       "Building structural integrity is critical during severe earthquakes. Reinforced concrete and steel frames significantly increase survival rates in Nepal."
+  //     );
+  //   }
 
-    // Intensity-specific lessons
-    if (intensity > 7.5) {
-      lessons.push(
-        `At magnitude ${intensity.toFixed(
-          1
-        )}, this earthquake was comparable to the 7.8 magnitude Nepal earthquake, which caused catastrophic damage to unreinforced structures.`
-      );
-    }
+  //   // Intensity-specific lessons
+  //   if (intensity > 7.5) {
+  //     lessons.push(
+  //       `At magnitude ${intensity.toFixed(
+  //         1
+  //       )}, this earthquake was comparable to the 7.8 magnitude Nepal earthquake, which caused catastrophic damage to unreinforced structures.`
+  //     );
+  //   }
 
-    // Budget lessons
-    if (state.availableFunds > state.totalBudget * 0.3) {
-      lessons.push(
-        "Underspending on preparedness can be costly. Data from Nepal shows that each dollar spent on preparedness saved approximately seven dollars in recovery costs."
-      );
-    }
+  //   // Budget lessons
+  //   if (state.availableFunds > state.totalBudget * 0.3) {
+  //     lessons.push(
+  //       "Underspending on preparedness can be costly. Data from Nepal shows that each dollar spent on preparedness saved approximately seven dollars in recovery costs."
+  //     );
+  //   }
 
-    if (state.location) {
-      if (state.location.earthquakeRiskFactor > 0.7) {
-        lessons.push(
-          `Living in ${state.location.name}, a high-risk area, meant your building experienced stronger shaking than many other regions of Nepal. Data from 2015 showed that buildings in this region needed additional reinforcement to withstand such forces.`
-        );
-      } else if (state.location.earthquakeRiskFactor < 0.4) {
-        lessons.push(
-          `Though ${state.location.name} experienced less intense shaking than other regions, the 2015 earthquake showed that distance from urban centers created challenges for emergency response and aid distribution.`
-        );
-      }
-    }
+  //   if (state.location) {
+  //     if (state.location.earthquakeRiskFactor > 0.7) {
+  //       lessons.push(
+  //         `Living in ${state.location.name}, a high-risk area, meant your building experienced stronger shaking than many other regions of Nepal. Data from 2015 showed that buildings in this region needed additional reinforcement to withstand such forces.`
+  //       );
+  //     } else if (state.location.earthquakeRiskFactor < 0.4) {
+  //       lessons.push(
+  //         `Though ${state.location.name} experienced less intense shaking than other regions, the 2015 earthquake showed that distance from urban centers created challenges for emergency response and aid distribution.`
+  //       );
+  //     }
+  //   }
 
-    return lessons;
-  }
+  //   return lessons;
+  // }
 
   const canProceed = () => {
     switch (gameState.phase) {
