@@ -6,11 +6,11 @@ from sklearn.model_selection import train_test_split
 import shap
 from collections import Counter
 from imblearn.over_sampling import SMOTE
-from sklearn.ensemble import RandomForestClassifier
-from sklearn.metrics import mean_squared_error
 import numpy as np
 import joblib
 from lib.lib import Import_data
+import lightgbm as lgb
+
 
 print("Importing data...")
 path = Import_data()
@@ -117,32 +117,55 @@ joblib.dump({'examples': examples,
 
 print("Over sampling data...")
 print("Original training distribution:", Counter(y_train))
-# smote = SMOTE(random_state=42)
-# X_train, y_train = smote.fit_resample(X_train, y_train)
+smote = SMOTE(random_state=42)
+X_train, y_train = smote.fit_resample(X_train, y_train)
 print("Sampled training distribution:", Counter(y_train))
 
 print("Training model...")
 # now do a random forest regressor
 
-reg = RandomForestClassifier(n_estimators=50, random_state=42)
-reg.fit(X_train, y_train)
-y_pred = reg.predict(X_test)
+def train(X_train, y_train, X_val, y_val,params, rounds):
+    # Create the LightGBM datasets
+    train_data = lgb.Dataset(X_train, label=y_train)
+    val_data = lgb.Dataset(X_val, label=y_val, reference=train_data)
 
+    # Train the model
+    model = lgb.train(
+        params,
+        train_data,
+        num_boost_round=rounds,
+        valid_sets=[train_data, val_data],
+    )
 
-print("Creating transformer for data normilization...")
-y_pred_test = y_pred
+    return model
 
-# y_pred_test should be a NumPy array
-y_pred_test = np.array(y_pred_test).reshape(-1, 1)  # Ensure it's 2D for the transformer
+params = {
+    'objective': 'multiclass',
+    'num_class': len(np.unique(y)),  # Number of damage grade classes
+    'metric': 'multi_logloss',
+    'learning_rate': 0.05,
+    'max_depth': -1,        # -1 means no limit
+    'num_leaves': 31,       # Maximum tree leaves for base learners
+    'feature_fraction': 0.8, # Randomly select a subset of features on each iteration
+    'bagging_fraction': 0.8, # Randomly select a subset of data without resampling
+    'bagging_freq': 5,       # Perform bagging every 5 iterations
+    'verbose': -1,          # Suppress printing messages
+    'boosting_type': 'gbdt'  # Traditional Gradient Boosting Decision Tree
+}
+
+rounds=100
+
+model = train(X_train, y_train, X_val, y_val, params, rounds)
+
 
 print("Generating shap explainer...")
-explainer = shap.TreeExplainer(reg)
+explainer = shap.TreeExplainer(model)
 
 print("Saving model...")
 joblib.dump({
-    'model': reg,
+    'model': model,
     'feature_names': keys,
     'shap_explainer': explainer
-}, 'rf_bundle.pkl')
+}, 'lgb_bundle.pkl')
 
 print("Done")
