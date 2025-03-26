@@ -231,6 +231,9 @@ export const buildingSizeTypes = {
     cost_multiplier: 1.0,
     source_cluster: "Size_Type_2",
     src: "/building_size/small_1_story.png",
+    insight:
+      "Similar structures in Nepal experienced moderate damage in the 2015 earthquake.",
+    capacity: "5-10 people",
   },
 
   "Medium Two-Story": {
@@ -241,6 +244,9 @@ export const buildingSizeTypes = {
     cost_multiplier: 1.81,
     source_cluster: "Size_Type_1",
     src: "/building_size/medium_2_story.png",
+    insight:
+      "Similar structures in Nepal experienced moderate damage in the 2015 earthquake.",
+    capacity: "10-15 people",
   },
 
   "Large Two-Story": {
@@ -251,6 +257,9 @@ export const buildingSizeTypes = {
     cost_multiplier: 3.03,
     source_cluster: "Size_Type_4",
     src: "/building_size/large_2_story.png",
+    insight:
+      "Similar structures in Nepal experienced moderate damage in the 2015 earthquake.",
+    capacity: "15-20 people",
   },
 
   "Tall Three-Story": {
@@ -261,6 +270,9 @@ export const buildingSizeTypes = {
     cost_multiplier: 2.62,
     source_cluster: "Size_Type_3",
     src: "/building_size/small_3_story.png",
+    insight:
+      "Similar structures in Nepal experienced moderate damage in the 2015 earthquake.",
+    capacity: "10-15 people",
   },
 
   "Large Three-Story": {
@@ -271,6 +283,9 @@ export const buildingSizeTypes = {
     cost_multiplier: 4.38,
     source_cluster: "Size_Type_6",
     src: "/building_size/large_3_story.png",
+    insight:
+      "Similar structures in Nepal experienced moderate damage in the 2015 earthquake.",
+    capacity: "15-20 people",
   },
 };
 

@@ -58,15 +58,13 @@ export function buildingSizePhase(
                   </div>
                   <div className="bg-slate-700 rounded-lg p-3 text-sm">
                     <span className="font-medium block mb-1">Capacity:</span>
-                    {"15-20 people"}
+                    {value.capacity}
                   </div>
                 </div>
 
                 <div className="mt-4 text-sm text-slate-400">
                   <span className="font-medium">Nepal Insight:</span>{" "}
-                  {
-                    "Similar structures in Nepal experienced moderate damage in the 2015 earthquake."
-                  }
+                  {value.insight}
                 </div>
               </div>
 
