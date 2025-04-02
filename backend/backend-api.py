@@ -92,7 +92,6 @@ def predict_stream():
     @stream_with_context
     def generate():
         try:
-
             # Initial progress update
             yield f"data: {json.dumps({'progress': 5, 'message': 'Initializing simulation...', 'type': 'progress'})}\n\n"
             time.sleep(0.7)
@@ -109,7 +108,7 @@ def predict_stream():
             yield f"data: {json.dumps({'progress': 25, 'message': 'Calculating soil response factors...', 'type': 'progress'})}\n\n"
             time.sleep(0.6)
 
-            # Create dataframe
+            # Create DataFrame
             input_df = pd.DataFrame([data], columns=feature_keys)
             yield f"data: {json.dumps({'progress': 40, 'message': 'Building structural analysis model...', 'type': 'progress'})}\n\n"
             time.sleep(0.9)
@@ -118,8 +117,7 @@ def predict_stream():
             time.sleep(1.0)
 
             # Make prediction
-            # prediction = model.predict(input_df)[0]
-            # prediction_transformed = round(float(prediction) * 50, 1)
+            prediction = model.predict(input_df)
             yield f"data: {json.dumps({'progress': 70, 'message': 'Evaluating structural integrity...', 'type': 'progress'})}\n\n"
             time.sleep(0.8)
 
@@ -127,15 +125,43 @@ def predict_stream():
             yield f"data: {json.dumps({'progress': 85, 'message': 'Analyzing failure points...', 'type': 'progress'})}\n\n"
             time.sleep(0.7)
 
-            # shap_values = shap_explainer.shap_values(input_df)
-            # feature_importance = {
-            #     key: float(shap_values[0][i]) for i, key in enumerate(feature_keys)
-            # }
+            sv = shap_explainer(input_df)
+
+            # For a 3-class model:
+            base = sv.base_values[0]          # shape: (3,)
+            shap_vals = sv.values[0]          # shape: (num_features, 3)
+
+            n_features, n_classes = shap_vals.shape
+
+            # We track how each feature moves the softmax probabilities.
+            logits = base.copy()
+            prev_probs = softmax(logits)
+            prob_contributions = np.zeros((n_features, n_classes))
+
+            for i in range(n_features):
+                logits += shap_vals[i]
+                new_probs = softmax(logits)
+                prob_contributions[i] = new_probs - prev_probs
+                prev_probs = new_probs
+
+            # Collapse to a single "feature importance" measure:
+            # difference in class-0 vs class-2 contributions, for example:
+            final_contributions = prob_contributions[:, 0] - prob_contributions[:, 2]
+
+            # Pair up feature names with the final contributions
+            paired = list(zip(feature_keys, final_contributions))
+            # Sort by absolute contribution
+            sorted_paired = sorted(paired, key=lambda x: abs(x[1]), reverse=True)
+            # Take top 4
+            top_4 = sorted_paired[:4]
+
+            r_dict = {}
+            for f, r in top_4:
+                # Multiply by 25 (as in your updated predict endpoint)
+                r_dict[f] = round(float(r * 25), 2)
 
             yield f"data: {json.dumps({'progress': 95, 'message': 'Compiling final damage assessment...', 'type': 'progress'})}\n\n"
             time.sleep(0.6)
-
-            prediction = model.predict_proba(input_df)
 
             # Send final result
             result = {
@@ -143,8 +169,7 @@ def predict_stream():
                 "message": "Simulation complete",
                 "type": "complete",
                 "prediction": prediction.tolist(),
-                # "prediction": prediction_transformed,
-                # "feature_importance": feature_importance,
+                "feature_importance": r_dict
             }
             yield f"data: {json.dumps(result)}\n\n"
 
@@ -152,6 +177,8 @@ def predict_stream():
             yield f"data: {json.dumps({'error': str(e), 'type': 'error'})}\n\n"
 
     return Response(generate(), mimetype="text/event-stream")
+
+
 
 
 if __name__ == "__main__":
