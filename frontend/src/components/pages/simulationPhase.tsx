@@ -85,6 +85,7 @@ export function SimulationPhase({
                     prediction: data.prediction,
                     feature_importance: data.feature_importance,
                   });
+
                   return;
                 }
               } catch (e) {

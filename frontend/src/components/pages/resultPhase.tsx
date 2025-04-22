@@ -1,12 +1,14 @@
 "use client";
 import { buildingSizeTypes, buildingTypes } from "@/lib/constants";
+import { mapFeatureImportanceToUserFriendly } from "@/lib/featureImportanceMap";
 import { GameState } from "@/types";
-import { ProgressBar } from "@/components/ui/ProgressBar";
 
 export function resultPhase(gameState: GameState) {
   const survivalProbability = gameState.survivalProbability![0] || [100, 0, 0];
-
-  // const survivalProbability = [1, 0, 0];
+  const featureImportance = gameState.results?.feature_importance;
+  const contributingFactors = mapFeatureImportanceToUserFriendly(
+    featureImportance as Record<string, number>
+  );
 
   const survivalProbabilityScore =
     100 -
@@ -139,9 +141,15 @@ export function resultPhase(gameState: GameState) {
             </div>
 
             <div className="bg-slate-800 p-4 rounded-lg">
-              <h4 className="font-bold mb-2">Feature Importance</h4>
+              <h4 className="font-bold mb-2">Contributing factors</h4>
               <div className="space-y-3">
-                <div>
+                {contributingFactors.allFactors.map((factor) => (
+                  <div key={factor.name} className="flex justify-between">
+                    <span className="text-sm">{factor.name}</span>
+                    <span className="text-sm font-medium">{factor.impact}</span>
+                  </div>
+                ))}
+                {/* <div>
                   <div className="flex justify-between items-center mb-1">
                     <span className="text-sm">Building Structure</span>
                     <span className="text-sm font-medium">45%</span>
@@ -168,7 +176,7 @@ export function resultPhase(gameState: GameState) {
                     <span className="text-sm font-medium">10%</span>
                   </div>
                   <ProgressBar value={10} max={100} colorClass="bg-blue-500" />
-                </div>
+                </div> */}
               </div>
             </div>
           </div>
