@@ -5,12 +5,13 @@ import pandas as pd
 import numpy as np
 import shap
 from flask_cors import CORS
+from scipy.special import softmax
 
 app = Flask(__name__)
 CORS(app, origins="*")
 
 # Load model and explainer at startup
-bundle = joblib.load("rf_bundle.pkl")
+bundle = joblib.load("lgb_bundle.pkl")
 model = bundle["model"]
 feature_keys = bundle["feature_names"]
 shap_explainer = bundle["shap_explainer"]  # This is a TreeExplainer or similar
@@ -29,23 +30,50 @@ def predict():
         # Create DataFrame in the correct order
         input_df = pd.DataFrame([data], columns=feature_keys)
 
-        # 1) Predict using your multi-output regressor
-        #    This might return something like array([[pred_for_output_0, pred_for_output_1, ...]])
-        prediction = model.predict_proba(input_df)
+        prediction = model.predict(input_df)
 
-        # 2) Compute SHAP values for each output
-        #    For multi-output regression, shap_values is typically a list of arrays,
-        #    each array: shape (n_samples, n_features)
-        # shap_values = shap_explainer.shap_values(input_df)
+        sv = shap_explainer(input_df)
 
-        # 3) Convert SHAP values to a JSON-friendly structure
-        #    We'll build a dictionary keyed by output index
+        base = sv.base_values[0]                 # shape: (3,)
+        shap_vals = sv.values[0]                 # shape: (35, 3)
 
-        # 4) Format the prediction as well. 'prediction' might be array([[x0, x1, ...]]) for one row
-        #    So let's flatten it, e.g., .tolist()[0] is common
+        n_features, n_classes = shap_vals.shape
+
+        # Initialize
+        logits = base.copy()
+        prev_probs = softmax(logits)
+
+        # Store (feature, class) delta probabilities
+        prob_contributions = np.zeros((n_features, n_classes))
+
+        # Loop through features
+        for i in range(n_features):
+            logits += shap_vals[i]                  # shap_vals[i] is shape: (3,)
+            new_probs = softmax(logits)
+            prob_contributions[i] = new_probs - prev_probs
+            prev_probs = new_probs
+
+        sv = prob_contributions
+        result = sv[:, 0] - sv[:, 2]
+
+                # Pair up feature_keys and result
+        paired = list(zip(feature_keys, result))
+
+        # Sort by absolute value of result
+        sorted_paired = sorted(paired, key=lambda x: abs(x[1]), reverse=True)
+
+        # Take top 4
+        top_4 = sorted_paired[:4]
+
+        r_dict = {}
+
+        # Display original (non-absolute) values
+        for f, r in top_4:
+            r_dict[f] = round(float(r*25), 2)
+
         result = {
             "prediction": prediction.tolist(),
-            # "feature_importance": all_outputs_importance
+            "feature_importance": r_dict
         }
 
         return jsonify(result), 200
@@ -64,7 +92,6 @@ def predict_stream():
     @stream_with_context
     def generate():
         try:
-
             # Initial progress update
             yield f"data: {json.dumps({'progress': 5, 'message': 'Initializing simulation...', 'type': 'progress'})}\n\n"
             time.sleep(0.7)
@@ -81,7 +108,7 @@ def predict_stream():
             yield f"data: {json.dumps({'progress': 25, 'message': 'Calculating soil response factors...', 'type': 'progress'})}\n\n"
             time.sleep(0.6)
 
-            # Create dataframe
+            # Create DataFrame
             input_df = pd.DataFrame([data], columns=feature_keys)
             yield f"data: {json.dumps({'progress': 40, 'message': 'Building structural analysis model...', 'type': 'progress'})}\n\n"
             time.sleep(0.9)
@@ -90,8 +117,7 @@ def predict_stream():
             time.sleep(1.0)
 
             # Make prediction
-            # prediction = model.predict(input_df)[0]
-            # prediction_transformed = round(float(prediction) * 50, 1)
+            prediction = model.predict(input_df)
             yield f"data: {json.dumps({'progress': 70, 'message': 'Evaluating structural integrity...', 'type': 'progress'})}\n\n"
             time.sleep(0.8)
 
@@ -99,15 +125,43 @@ def predict_stream():
             yield f"data: {json.dumps({'progress': 85, 'message': 'Analyzing failure points...', 'type': 'progress'})}\n\n"
             time.sleep(0.7)
 
-            # shap_values = shap_explainer.shap_values(input_df)
-            # feature_importance = {
-            #     key: float(shap_values[0][i]) for i, key in enumerate(feature_keys)
-            # }
+            sv = shap_explainer(input_df)
+
+            # For a 3-class model:
+            base = sv.base_values[0]          # shape: (3,)
+            shap_vals = sv.values[0]          # shape: (num_features, 3)
+
+            n_features, n_classes = shap_vals.shape
+
+            # We track how each feature moves the softmax probabilities.
+            logits = base.copy()
+            prev_probs = softmax(logits)
+            prob_contributions = np.zeros((n_features, n_classes))
+
+            for i in range(n_features):
+                logits += shap_vals[i]
+                new_probs = softmax(logits)
+                prob_contributions[i] = new_probs - prev_probs
+                prev_probs = new_probs
+
+            # Collapse to a single "feature importance" measure:
+            # difference in class-0 vs class-2 contributions, for example:
+            final_contributions = prob_contributions[:, 0] - prob_contributions[:, 2]
+
+            # Pair up feature names with the final contributions
+            paired = list(zip(feature_keys, final_contributions))
+            # Sort by absolute contribution
+            sorted_paired = sorted(paired, key=lambda x: abs(x[1]), reverse=True)
+            # Take top 4
+            top_4 = sorted_paired[:4]
+
+            r_dict = {}
+            for f, r in top_4:
+                # Multiply by 25 (as in your updated predict endpoint)
+                r_dict[f] = round(float(r * 25), 2)
 
             yield f"data: {json.dumps({'progress': 95, 'message': 'Compiling final damage assessment...', 'type': 'progress'})}\n\n"
             time.sleep(0.6)
-
-            prediction = model.predict_proba(input_df)
 
             # Send final result
             result = {
@@ -115,8 +169,7 @@ def predict_stream():
                 "message": "Simulation complete",
                 "type": "complete",
                 "prediction": prediction.tolist(),
-                # "prediction": prediction_transformed,
-                # "feature_importance": feature_importance,
+                "feature_importance": r_dict
             }
             yield f"data: {json.dumps(result)}\n\n"
 
@@ -124,6 +177,8 @@ def predict_stream():
             yield f"data: {json.dumps({'error': str(e), 'type': 'error'})}\n\n"
 
     return Response(generate(), mimetype="text/event-stream")
+
+
 
 
 if __name__ == "__main__":
